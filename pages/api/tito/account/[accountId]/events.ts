@@ -9,11 +9,12 @@ export default async function callback(req, res) {
     const eventsReq = await titoEvents(accountId)
 
     const data = await eventsReq.json()
-    const response = data.events.reduce((obj, d) => {
-      return Object.assign(obj, {
-        [d.slug]: d.title
-      })
-    }, {})
+    const response = data.events.map((d) => {
+      return  {
+        slug: d.slug,
+        title: d.title
+      }
+    })
 
     res
       .status(200)

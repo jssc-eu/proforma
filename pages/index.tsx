@@ -1,34 +1,52 @@
-
+import { useEffect, useState, useContext } from 'react'
 import { useFetchUser } from 'lib/user'
-import Login from 'components/login'
 import auth0 from 'lib/auth0'
 import Grid from '@mui/material/Grid'
 
+import Login from 'components/login'
+import User from 'components/user'
+import Tito from 'components/tito'
+import Company from 'components/company'
+import Tickets from 'components/tickets'
+
 const Item = ( { children }) => (<div>{children}</div>)
 
+import { ProformaContext } from 'lib/ui/context'
 
 function HomePage({user}) {
     const { loading } = useFetchUser()
-console.log(user)
+
+    const [ company, setCompany ] = useState({})
+    const [ tickets, setTickets ] = useState([])
+    const [ lineItems, setLineItems ] = useState([])
+
+    const context = {
+      company,
+      setCompany,
+      tickets,
+      setTickets,
+      lineItems,
+      setLineItems
+    }
+
     return (
         <>
         {!user && (
           <Login />
         )}
         {user && (
-          <Grid container spacing={4}>
-            <Grid item xs={12} md={3}>
-              <Item><img src={user.picture} alt="user picture" />
-            <p>nickname: {user.nickname}</p>
-            <p>name: {user.name}</p></Item>
+          <ProformaContext.Provider value={ context }>
+          <Grid container spacing={2}>
+            <Grid item xs={12} md={4}>
+              <User user={user} />
+                <Tito />
+                <Company />
+            </Grid>
+            <Grid item xs={12} md={8}>
+              <Tickets />
+            </Grid>
           </Grid>
-          <Grid item xs={12} md={9}>
-            <Item>
-            <h4>Rendered user info on the client</h4>
-
-            </Item>
-          </Grid>
-          </Grid>
+          </ProformaContext.Provider>
 
 
         )}
@@ -45,11 +63,8 @@ export async function getServerSideProps({ req, res }) {
   const session = await auth0.getSession(req, res)
 
   if (!session || !session.user) {
-    res.writeHead(302, {
-      Location: '/api/auth/login',
-    })
-    res.end()
-    return
+
+    return { props: { user: null } }
   }
 
   return { props: { user: session.user } }

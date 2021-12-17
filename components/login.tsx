@@ -1,6 +1,4 @@
-
 import Container from '@mui/material/Container'
-import Box from '@mui/material/Box'
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
@@ -21,8 +19,9 @@ export default function Login ({ }) {
 
       </CardContent>
       <CardActions>
-        <Button size="small">
-        <a href="/api/auth/login">Login</a></Button>
+        <Button size="small" href="/api/auth/login">
+          Login
+        </Button>
       </CardActions>
     </Card>
     </Container>
