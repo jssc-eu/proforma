@@ -13,7 +13,8 @@ export default function User ({ user }) {
     <Card>
       <CardContent sx={{
         display: 'flex',
-        alignItems: "center"
+        alignItems: 'center',
+        paddingBottom: '2.6rem'
       }}>
         <Avatar alt={user.name} src={user.picture} />
         <Typography sx={{ fontSize: 14, paddingLeft: 1 }} color="text.secondary" gutterBottom>

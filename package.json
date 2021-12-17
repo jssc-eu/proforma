@@ -10,6 +10,7 @@
     "@emotion/server": "^11.4.0",
     "@emotion/styled": "^11.6.0",
     "@hapi/boom": "^9.1.4",
+    "@mui/icons-material": "^5.2.4",
     "@mui/material": "^5.2.4",
     "@types/react": "^17.0.37",
     "clsx": "^1.1.1",

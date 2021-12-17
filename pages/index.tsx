@@ -8,6 +8,7 @@ import User from 'components/user'
 import Tito from 'components/tito'
 import Company from 'components/company'
 import Tickets from 'components/tickets'
+import LineItems from 'components/lineitems'
 
 const Item = ( { children }) => (<div>{children}</div>)
 
@@ -19,6 +20,7 @@ function HomePage({user}) {
     const [ company, setCompany ] = useState({})
     const [ tickets, setTickets ] = useState([])
     const [ lineItems, setLineItems ] = useState([])
+    const [ discount, setDiscount ] = useState([])
 
     const context = {
       company,
@@ -26,7 +28,9 @@ function HomePage({user}) {
       tickets,
       setTickets,
       lineItems,
-      setLineItems
+      setLineItems,
+      discount,
+      setDiscount,
     }
 
     return (
@@ -44,6 +48,7 @@ function HomePage({user}) {
             </Grid>
             <Grid item xs={12} md={8}>
               <Tickets />
+              <LineItems />
             </Grid>
           </Grid>
           </ProformaContext.Provider>
