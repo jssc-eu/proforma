@@ -1,6 +1,8 @@
 import React from 'react'
 
 export const ProformaContext = React.createContext({
+  event: '',
+  setEvent: (company: Object) => {},
   company: {},
   setCompany: (company: Object) => {},
   tickets: [],

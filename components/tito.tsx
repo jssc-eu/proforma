@@ -68,7 +68,6 @@ export default function Tito () {
     fetch('/api/tito/accounts')
       .then(req => req.json())
       .then(accounts => {
-        console.log(accounts)
         setAccounts(accounts)
         setAccount(accounts[0] || '') // if empty
       })
@@ -78,9 +77,9 @@ export default function Tito () {
     fetch(`/api/tito/account/${account}/events`)
       .then(req => req.json())
       .then(events => {
-        console.log(events)
         setEvents(events)
         setEvent(events[0] || {}) // if empty
+        context.setEvent(events[0] || {})
       })
   }, [account])
 
@@ -88,12 +87,7 @@ export default function Tito () {
     fetch(`/api/tito/account/${account}/event/${event.slug}/tickets`)
       .then(req => req.json())
       .then(tickets => {
-        console.log(tickets)
-
         context.setTickets(tickets)
-
-
-
       })
   }, [event])
 
@@ -109,7 +103,10 @@ export default function Tito () {
         events={events}
         value={event}
         disabled={ events.length == 0 }
-        onChange={ (event) => setEvent(event.target.value) }
+        onChange={ (event) => {
+          setEvent(event.target.value)
+          context.setEvent(event.target.value)
+        } }
       />
     </>
   )

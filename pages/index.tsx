@@ -9,20 +9,20 @@ import Tito from 'components/tito'
 import Company from 'components/company'
 import Tickets from 'components/tickets'
 import LineItems from 'components/lineitems'
-
-const Item = ( { children }) => (<div>{children}</div>)
+import Sum from 'components/sum'
 
 import { ProformaContext } from 'lib/ui/context'
 
 function HomePage({user}) {
-    const { loading } = useFetchUser()
-
+    const [ event, setEvent ] = useState({})
     const [ company, setCompany ] = useState({})
     const [ tickets, setTickets ] = useState([])
     const [ lineItems, setLineItems ] = useState([])
-    const [ discount, setDiscount ] = useState([])
+    const [ discount, setDiscount ] = useState(0)
 
     const context = {
+      event,
+      setEvent,
       company,
       setCompany,
       tickets,
@@ -32,6 +32,13 @@ function HomePage({user}) {
       discount,
       setDiscount,
     }
+
+    const removeLineItem = (id) => {
+      setLineItems(lineItems.filter(item => item.id !== id))
+    }
+
+    const onSend = () => {}
+
 
     return (
         <>
@@ -48,12 +55,15 @@ function HomePage({user}) {
             </Grid>
             <Grid item xs={12} md={8}>
               <Tickets />
-              <LineItems />
+              <LineItems
+                removeLine={ removeLineItem }
+              />
+              <Sum
+                send={ onSend }
+              />
             </Grid>
           </Grid>
           </ProformaContext.Provider>
-
-
         )}
       </>
     )

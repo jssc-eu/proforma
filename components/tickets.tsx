@@ -140,6 +140,7 @@ export default function Tickets () {
       return
     }
     const lineItem = {
+      event: context.event,
       id: (Math.random() * 1000).toString(32),
       ticket: selected.title,
       amount,
