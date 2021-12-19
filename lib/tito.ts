@@ -4,7 +4,7 @@ export async function sendTitoRequest (url: string) {
   const res = await fetch(
     url, {
     headers: {
-      Authorization: `Token token=${process.env.TITO_TOKEN}`,
+      Authorization: `Token token=${process.env.TITO_API_TOKEN}`,
       Accept: `application/json`
     }
   })

@@ -1,5 +1,5 @@
 import { accounts as titoAccounts } from 'lib/tito'
-import authApi from 'lib/authApi';
+import authApi from 'lib/api/auth';
 
 export default async function callback(req, res) {
   try {

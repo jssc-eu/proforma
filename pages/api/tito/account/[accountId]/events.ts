@@ -1,4 +1,4 @@
-import authApi from 'lib/authApi';
+import authApi from 'lib/api/auth';
 import { events as titoEvents } from 'lib/tito'
 
 export default async function callback(req, res) {
