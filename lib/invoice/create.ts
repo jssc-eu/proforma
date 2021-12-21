@@ -1,11 +1,12 @@
 import yaml from 'yaml';
 import szamlazz from '@jssc/szamlazz.js';
 import getPartnerFromOrder from 'lib/tito/partner-from-order'
-import getPartner from 'lib/invoice/partner';
+import getItemsFromOrder from 'lib/tito/items-from-order'
+import getPartner from 'lib/partner';
 import getSeller from './get-seller';
-import getItems from './get-items';
+import getItems from 'lib/lineitem';
 import getPaymentMethod from './get-payment-method';
-import getVATComment from './get-vat-comment';
+import getTaxComment from 'lib/tax/comment';
 
 export default async function create (
   order: any,
@@ -18,7 +19,8 @@ export default async function create (
   const seller = getSeller(config);
   const rawPartner = getPartnerFromOrder(order)
   const partner = await getPartner(rawPartner);
-  const items = getItems(order, partner, config);
+  const rawItems = getItemsFromOrder(order)
+  const items = getItems(rawItems, partner, config);
 
   if (process.env.DEBUG) {
     console.warn(yaml.stringify(order));
@@ -28,7 +30,7 @@ export default async function create (
   const orderNumber = order.reference;
   const invoiceIdPrefix = config.invoice['id-prefix'];
   const logoImage = config.invoice['logo-image'];
-  const comment = getVATComment(partner, items) + '\n' + config.invoice.comment;
+  const comment = getTaxComment(partner, items) + '\n' + config.invoice.comment;
 
   const szamlazzItems = items.map(item => new Item(item));
   return new Invoice({

@@ -1,6 +1,6 @@
 import { RawPartner, VatRate } from 'lib/types';
 import deepClone from 'lib/deepclone'
-import getVatRate from 'lib/invoice/tax/rate';
+import getVatRate from 'lib/tax/rate';
 
 const partner: RawPartner = {
   reference: 'K0DF',

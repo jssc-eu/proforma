@@ -1,6 +1,6 @@
 import { RawPartner } from 'lib/types';
 import szamlazz from '@jssc/szamlazz.js';
-import getTaxSubject from 'lib/invoice/tax/subject';
+import getTaxSubject from 'lib/tax/subject';
 
 const partner: RawPartner = {
   reference: 'K0DF',

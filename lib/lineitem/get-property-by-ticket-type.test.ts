@@ -1,6 +1,6 @@
 
 
-import getPropertyByTicketType from './get-property-by-ticket-type';
+import getPropByType from 'lib/lineitem/get-property-by-ticket-type';
 
 const data = [
   {
@@ -22,7 +22,7 @@ describe('get-property-by-ticket-type', () => {
     const ticketName = 'Early Bird';
     const prop = 'net-price';
 
-    const result = getPropertyByTicketType(ticketName, prop, data);
+    const result = getPropByType(ticketName, prop, data);
     expect(result).toBe(90);
   });
 
@@ -30,7 +30,7 @@ describe('get-property-by-ticket-type', () => {
     const ticketName = 'Double Bird';
     const prop = 'net-price';
 
-    const result = getPropertyByTicketType(ticketName, prop, data);
+    const result = getPropByType(ticketName, prop, data);
     expect(result).toBe(180);
   });
 
@@ -38,7 +38,7 @@ describe('get-property-by-ticket-type', () => {
     const ticketName = 'Admission Online Bird';
     const prop = 'net-price';
 
-    const result = getPropertyByTicketType(ticketName, prop, data);
+    const result = getPropByType(ticketName, prop, data);
     expect(result).toBe(0);
   });
 
@@ -46,7 +46,7 @@ describe('get-property-by-ticket-type', () => {
     const ticketName = 'double bird';
     const prop = 'net-price';
 
-    const result = getPropertyByTicketType(ticketName, prop, data);
+    const result = getPropByType(ticketName, prop, data);
     expect(result).toBe(180);
   });
 });

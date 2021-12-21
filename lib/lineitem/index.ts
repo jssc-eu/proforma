@@ -1,7 +1,7 @@
 import { roundTo } from 'round-to';
-import { Partner, Item, VatRate } from 'lib/types';
-import getCateringPerTicket from 'lib/invoice/get-catering-per-ticket';
-import getPropertyByTicketType from 'lib/invoice/get-property-by-ticket-type';
+import { Partner, RawItem, Item, VatRate } from 'lib/types';
+import getCateringPerTicket from 'lib/lineitem/get-catering-per-ticket';
+import getPropertyByTicketType from 'lib/lineitem/get-property-by-ticket-type';
 
 const getDate = (ticket, config) => {
   if (typeof config.dates === 'undefined') return config.date;
@@ -17,25 +17,19 @@ const getVatRateField = (buyer, isOnlineService) => {
   return VatRate.Regular
 }
 
-export default (order, buyer: Partner, eventConfig) => order.line_items.reduce((items, ticket) => {
+export default (rawItems: RawItem[], buyer: Partner, eventConfig) => rawItems.reduce((items, ticket) => {
     const {
       price,
       quantity,
-      release_title: title,
-      release = {}
+      title,
+      isOnlineService
     } = ticket;
 
     if (price === 0) {
       return items;
     }
 
-    const {
-      metadata: release_metadata = {}
-    } = release;
-
-    const onlineService = release_metadata?.['online-service'] ?? false;
-
-    const vatRate = getVatRateField(buyer, onlineService);
+    const vatRate = getVatRateField(buyer, isOnlineService);
     const date = getDate(title, eventConfig);
     const cateringPartial = getCateringPerTicket(title, eventConfig);
     const ticketPartial = roundTo(price - (cateringPartial * 1.27), 2);

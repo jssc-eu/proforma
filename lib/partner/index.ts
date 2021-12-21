@@ -1,8 +1,8 @@
 import { Partner, RawPartner } from 'lib/types';
-import getTaxSubject from 'lib/invoice/tax/subject';
-import getTaxNumber from 'lib/invoice/tax/number';
-import getPartnerIdentifier from 'lib/invoice/partner/get-identifier';
-import countryCodes from 'lib/invoice/countrycodes';
+import getTaxSubject from 'lib/tax/subject';
+import getTaxNumber from 'lib/tax/number';
+import getPartnerIdentifier from 'lib/partner/get-identifier';
+import countryCodes from 'lib/countrycodes';
 import checkVIES from 'lib/api/check-vies';
 import sendMail from 'lib/api/send-mail';
 

@@ -1,4 +1,4 @@
-import countryCodes from 'lib/invoice/countrycodes';
+import countryCodes from 'lib/countrycodes';
 import { RawPartner, VatRate } from 'lib/types';
 
 export default (raw: RawPartner): VatRate => {

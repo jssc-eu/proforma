@@ -1,6 +1,6 @@
 
 import { Partner, Item } from 'lib/types';
-import getTaxComment, { NON_VAT_ACT, REVERSE_CHARGE_VAT } from 'lib/invoice/tax/comment';
+import getTaxComment, { NON_VAT_ACT, REVERSE_CHARGE_VAT } from 'lib/tax/comment';
 import deepClone from 'lib/deepclone'
 
 const buyerData: Partner = {

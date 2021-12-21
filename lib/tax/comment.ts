@@ -1,4 +1,4 @@
-import countryCodes from 'lib/invoice/countrycodes';
+import countryCodes from 'lib/countrycodes';
 import { Partner, Item, VatRate } from 'lib/types';
 
 export const NON_VAT_ACT = 'Falling outside the territorial scope of the VAT Act.';

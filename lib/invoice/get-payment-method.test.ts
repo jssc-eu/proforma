@@ -1,3 +1,4 @@
+import szamlazz from '@jssc/szamlazz.js';
 import getPaymentMethod from './get-payment-method';
 
 const orderData = {
@@ -125,7 +126,7 @@ describe('get payment method from order', () => {
     order.payment_option_name = 'stripe';
 
     const paymentMethod = getPaymentMethod(order);
-    expect(paymentMethod.value).toBe('Bankkártya');
+    expect(paymentMethod).toBe(szamlazz.PaymentMethod.CreditCard);
   });
 
   test('paypal', () => {
@@ -134,7 +135,7 @@ describe('get payment method from order', () => {
     order.payment_option_name = 'paypal_express_checkout';
 
     const paymentMethod = getPaymentMethod(order);
-    expect(paymentMethod.value).toBe('PayPal');
+    expect(paymentMethod).toBe(szamlazz.PaymentMethod.PayPal);
   });
 
   test('default to paypal', () => {
@@ -143,6 +144,6 @@ describe('get payment method from order', () => {
     order.payment_option_name = 'unknown';
 
     const paymentMethod = getPaymentMethod(order);
-    expect(paymentMethod.value).toBe('PayPal');
+    expect(paymentMethod).toBe(szamlazz.PaymentMethod.PayPal);
   });
 });

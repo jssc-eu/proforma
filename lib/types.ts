@@ -36,6 +36,13 @@ export interface Partner {
   isTEHK: boolean;
 }
 
+export interface RawItem {
+  price: number;
+  quantity: number;
+  title: string;
+  isOnlineService: boolean;
+}
+
 export interface Item {
   label: string;
   quantity: number;

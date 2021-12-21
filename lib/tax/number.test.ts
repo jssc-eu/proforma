@@ -1,4 +1,4 @@
-import getTaxNumber from 'lib/invoice/tax/number';
+import getTaxNumber from 'lib/tax/number';
 
 const partner = {
   orderReference: 'K0DF',
