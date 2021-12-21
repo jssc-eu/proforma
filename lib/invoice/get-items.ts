@@ -1,5 +1,5 @@
 import { roundTo } from 'round-to';
-import { Buyer, Item, VatRate } from 'lib/types';
+import { Partner, Item, VatRate } from 'lib/types';
 import getCateringPerTicket from 'lib/invoice/get-catering-per-ticket';
 import getPropertyByTicketType from 'lib/invoice/get-property-by-ticket-type';
 
@@ -17,7 +17,7 @@ const getVatRateField = (buyer, isOnlineService) => {
   return VatRate.Regular
 }
 
-export default (order, buyer: Buyer, eventConfig) => order.line_items.reduce((items, ticket) => {
+export default (order, buyer: Partner, eventConfig) => order.line_items.reduce((items, ticket) => {
     const {
       price,
       quantity,

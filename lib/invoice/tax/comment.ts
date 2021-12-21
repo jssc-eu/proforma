@@ -1,10 +1,10 @@
-import countryCodes from 'lib/api/countrycodes';
-import { Buyer, Item, VatRate } from 'lib/types';
+import countryCodes from 'lib/invoice/countrycodes';
+import { Partner, Item, VatRate } from 'lib/types';
 
 export const NON_VAT_ACT = 'Falling outside the territorial scope of the VAT Act.';
 export const REVERSE_CHARGE_VAT = 'Reverse charge VAT.';
 
-export default (buyer: Buyer, items: Item[] ) => {
+export default function getTaxComment (buyer: Partner, items: Item[] ): string {
   const isHU = countryCodes(buyer.country).isHungarian();
   const isEU = countryCodes(buyer.country).isEuropean();
 

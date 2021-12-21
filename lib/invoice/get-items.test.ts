@@ -1,4 +1,4 @@
-import { Buyer } from 'lib/types';
+import { Partner } from 'lib/types';
 import getItemizedCosts from './get-items';
 
 const orderData = {
@@ -295,7 +295,7 @@ const testEvents = {
 };
 
 
-const buyerData: Buyer = {
+const buyerData: Partner = {
   name: 'buyerName',
   email: 'email',
   sendEmail: true,

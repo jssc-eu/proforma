@@ -1,54 +1,51 @@
-import getBuyerIdentifier from './get-buyer-identifier';
+import { RawPartner } from 'lib/types';
+import deepClone from 'lib/deepclone'
 
-const orderData = {
+import getBuyerIdentifier from './get-identifier';
+
+const partner: Partial<RawPartner> = {
   email: 'john.doe23@gm-ail.com',
-  company_name: 'Teszt-Co. GMBH',
-  billing_address: {
-    vat_number: '123456789',
-    company_name: 'Teszt-Co. GMBH',
-  },
+  companyName: 'Teszt-Co. GMBH',
+  taxNumber: '123456789',
 };
-
-const deepClone = data => JSON.parse(JSON.stringify(data));
 
 describe('get buyer identifier', () => {
   test('buyer with vat number', async () => {
-    const order = deepClone(orderData);
+    const order = deepClone(partner);
       const identifier = await getBuyerIdentifier(order);
       expect(identifier).toBe('123456789');
   });
 
   test('buyer with formatted vat number', async () => {
-    const order = deepClone(orderData);
-    order.billing_address.vat_number = '123456-7-89';
+    const order = deepClone(partner);
+    order.taxNumber = '123456-7-89';
 
     const identifier = await getBuyerIdentifier(order);
     expect(identifier).toBe('123456789');
   });
 
   test('buyer with EUR vat number', async () => {
-    const order = deepClone(orderData);
-    order.billing_address.vat_number = 'de123456789';
+    const order = deepClone(partner);
+    order.taxNumber = 'de123456789';
 
     const identifier = await getBuyerIdentifier(order);
     expect(identifier).toBe('DE123456789');
   });
 
   test('buyer with company name, no vat', async () => {
-    const order = deepClone(orderData);
+    const order = deepClone(partner);
 
-    delete order.billing_address.vat_number;
+    delete order.taxNumber;
 
     const identifier = await getBuyerIdentifier(order);
     expect(identifier).toBe('TESZT-CO_GMBH');
   });
 
   test('buyer with email, no company, no vat', async () => {
-    const order = deepClone(orderData);
+    const order = deepClone(partner);
 
-    delete order.billing_address.vat_number;
-    delete order.billing_address.company_name;
-    delete order.company_name;
+    delete order.taxNumber
+    delete order.companyName;
 
     const identifier = await getBuyerIdentifier(order);
     expect(identifier).toBe('JOHN_DOE23_GM-AIL_COM');

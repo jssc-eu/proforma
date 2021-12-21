@@ -6,7 +6,20 @@ export interface PostAddress {
   address: string;
 }
 
-export interface Buyer {
+export interface RawPartner {
+  taxNumber: string;
+  address: string;
+  city: string;
+  countryCode: string;
+  companyName: string;
+  name?: string;
+  zip?: string;
+  state?: string;
+  reference?: string;
+  email?: string;
+}
+
+export interface Partner {
   name: string;
   email: string;
   sendEmail: boolean;

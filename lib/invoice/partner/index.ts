@@ -1,35 +1,33 @@
-import getTaxSubject from 'lib/invoice/get-tax-subject';
-import getTaxNumber from 'lib/invoice/get-tax-number';
-import getBuyerIdentifier from 'lib/invoice/get-buyer-identifier';
-import { Buyer } from 'lib/types';
-import countryCodes from 'lib/api/countrycodes';
+import { Partner, RawPartner } from 'lib/types';
+import getTaxSubject from 'lib/invoice/tax/subject';
+import getTaxNumber from 'lib/invoice/tax/number';
+import getPartnerIdentifier from 'lib/invoice/partner/get-identifier';
+import countryCodes from 'lib/invoice/countrycodes';
 import checkVIES from 'lib/api/check-vies';
 import sendMail from 'lib/api/send-mail';
 
-export default async (order) : Promise<Buyer> => {
+export default async function getPartner(raw: RawPartner): Promise<Partner> {
   const {
     reference,
     name,
     email,
-    company_name,
-    billing_address: {
-      address,
-      city,
-      zip_postal_code: zip = '',
-      country: countryCode,
-      state_province_region: state = '',
-    },
-  } = order;
+    companyName,
+    address,
+    city,
+    zip = '',
+    countryCode,
+    state = '',
+  } = raw;
 
-  const identifier = getBuyerIdentifier(order);
-  const taxNumber = getTaxNumber(order);
+  const identifier = getPartnerIdentifier(raw);
+  const taxNumber = getTaxNumber(raw);
   const isEU = countryCodes(countryCode).isEuropean();
 
-  const buyerName = company_name || name;
+  const buyerName = companyName || name;
   const addressWithState = `${address.replace(/[\r]?\n/g, ' ')} ${state}`;
   let isTEHK = false;
 
-  if (company_name && taxNumber && isEU) {
+  if (companyName && taxNumber && isEU) {
     isTEHK = true;
     try {
       isTEHK = await checkVIES(countryCode, taxNumber);
@@ -41,13 +39,13 @@ export default async (order) : Promise<Buyer> => {
     }
   }
 
-  const data : Buyer = {
+  const data : Partner = {
     name: buyerName,
     email,
     sendEmail: true,
     country: countryCode,
     taxNumber,
-    taxSubject: getTaxSubject(order),
+    taxSubject: getTaxSubject(raw),
     zip,
     city,
     address: addressWithState,

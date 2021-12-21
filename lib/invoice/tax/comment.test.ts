@@ -1,10 +1,9 @@
 
-import { Buyer, Item } from 'lib/types';
-import getVATComment, { NON_VAT_ACT, REVERSE_CHARGE_VAT } from 'lib/invoice/get-vat-comment';
+import { Partner, Item } from 'lib/types';
+import getTaxComment, { NON_VAT_ACT, REVERSE_CHARGE_VAT } from 'lib/invoice/tax/comment';
+import deepClone from 'lib/deepclone'
 
-const deepClone = <T extends unknown>(data: T): T => JSON.parse(JSON.stringify(data));
-
-const buyerData: Buyer = {
+const buyerData: Partner = {
   name: 'buyerName',
   email: 'email',
   sendEmail: true,
@@ -40,7 +39,7 @@ describe('get VAT related comments', () => {
   test('hu individual / non vat subject', () => {
     const buyer = deepClone(buyerData);
     const items = deepClone(itemsData);
-    const comment = getVATComment(buyer, items);
+    const comment = getTaxComment(buyer, items);
 
     expect(comment).toBe('');
   });
@@ -50,18 +49,18 @@ describe('get VAT related comments', () => {
     const items = deepClone(itemsData);
     buyer.taxNumber = 'HU1234567';
 
-    const comment = getVATComment(buyer, items);
+    const comment = getTaxComment(buyer, items);
 
     expect(comment).toBe('');
   });
 
   test('eu individual / non vat subject', () => {
-    const buyer:Buyer = deepClone(buyerData);
+    const buyer:Partner = deepClone(buyerData);
     const items = deepClone(itemsData);
     buyer.taxNumber = '';
     buyer.country = 'DE';
 
-    const comment = getVATComment(buyer, items);
+    const comment = getTaxComment(buyer, items);
 
     expect(comment).toBe(NON_VAT_ACT);
   });
@@ -73,7 +72,7 @@ describe('get VAT related comments', () => {
     buyer.country = 'DE';
     buyer.isTEHK = true;
 
-    const comment = getVATComment(buyer, items);
+    const comment = getTaxComment(buyer, items);
 
     expect(comment).toBe('');
   });
@@ -93,7 +92,7 @@ describe('get VAT related comments', () => {
       vat: 'TEHK'
     });
 
-    const comment = getVATComment(buyer, items);
+    const comment = getTaxComment(buyer, items);
 
     expect(comment).toBe(REVERSE_CHARGE_VAT);
   });
@@ -104,7 +103,7 @@ describe('get VAT related comments', () => {
     buyer.taxNumber = '';
     buyer.country = 'US';
 
-    const comment = getVATComment(buyer, items);
+    const comment = getTaxComment(buyer, items);
 
     expect(comment).toBe(NON_VAT_ACT);
   });
@@ -115,7 +114,7 @@ describe('get VAT related comments', () => {
     buyer.taxNumber = '12323543546';
     buyer.country = 'US';
 
-    const comment = getVATComment(buyer, items);
+    const comment = getTaxComment(buyer, items);
 
     expect(comment).toBe(NON_VAT_ACT);
   });
