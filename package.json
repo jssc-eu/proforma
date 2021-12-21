@@ -10,6 +10,7 @@
     "@emotion/server": "^11.4.0",
     "@emotion/styled": "^11.6.0",
     "@hapi/boom": "^9.1.4",
+    "@jssc/szamlazz.js": "^4.2.0",
     "@mui/icons-material": "^5.2.4",
     "@mui/material": "^5.2.4",
     "@types/jest": "^27.0.3",
@@ -19,16 +20,22 @@
     "@typescript-eslint/parser": "^5.7.0",
     "clsx": "^1.1.1",
     "country-list": "^2.2.0",
+    "dedent": "^0.7.0",
     "eslint": "^8.5.0",
     "eslint-plugin-jest": "^25.3.0",
     "jest": "^27.4.5",
+    "mailgun-js": "^0.22.0",
+    "mockdate": "^3.0.5",
     "next": "^12.0.7",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
+    "round-to": "^6.0.0",
     "ts-jest": "^27.1.2",
-    "typescript": "^4.5.4"
+    "ts-node": "^10.4.0",
+    "typescript": "^4.5.4",
+    "validate-vat-ts": "^1.2.1",
+    "yaml": "^1.10.2"
   },
-  "devDependencies": {},
   "scripts": {
     "dev": "next dev",
     "build": "next build",
@@ -55,13 +62,18 @@
       "<rootDir>/test/**/*.test.ts"
     ],
     "transform": {
-      "^.+\\.ts?$": "ts-jest"
+      "^.+\\.ts?$": "ts-jest",
+      "node_modules/round-to/.+\\.(j|t)s?$": "ts-jest"
     },
+    "transformIgnorePatterns": [
+      "node_modules/(?!round-to/.*)"
+    ],
     "testPathIgnorePatterns": [
       "<rootDir>/node_modules/",
       "<rootDir>/.next/",
       "<rootDir>/dist/",
       "<rootDir>/szamlazz/"
-    ]
+    ],
+    "moduleDirectories": ["node_modules", "."]
   }
 }
