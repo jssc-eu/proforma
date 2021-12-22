@@ -1,5 +1,6 @@
 import { useEffect, useState, useContext } from 'react'
-
+import { roundTo } from 'round-to'
+import discountPrice  from 'lib/lineitem/discount-price';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -20,12 +21,12 @@ export default function Sum ({ send }) {
   useEffect(() => {
     if (
       context.lineItems.length > 0
-      && context.company.name
-      && context.company.vat
+      && context.company.companyName
+      && context.company.taxNumber
       && context.company.city
       && context.company.address
-      && context.company.postalcode
-      && context.company.country
+      && context.company.zip
+      && context.company.countryCode
       && context.company.email
     ) {
       setDisabled(false)
@@ -36,11 +37,11 @@ export default function Sum ({ send }) {
 
   const total = context.lineItems.reduce((sum, item) => {
     const {
-      amount,
+      quantity,
       itemPrice,
       discount
     } = item
-    return sum + (amount * (itemPrice - (itemPrice * discount / 100 )))
+    return sum + (quantity * discountPrice(itemPrice, discount))
   }, 0);
 
   return (<TableContainer component={Paper} sx={{ marginTop: 2 }} >
@@ -63,7 +64,7 @@ export default function Sum ({ send }) {
           <TableCell align="right"></TableCell>
           <TableCell align="right"></TableCell>
           <TableCell align="right">
-            <strong>€{total}</strong>
+            <strong>€{roundTo(total, 2)}</strong>
           </TableCell>
           <TableCell align="center"></TableCell>
         </TableRow>

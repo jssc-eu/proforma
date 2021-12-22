@@ -1,5 +1,5 @@
 import { useEffect, useState, useContext } from 'react'
-import { useFetchUser } from 'lib/user'
+
 import auth0 from 'lib/auth0'
 import Grid from '@mui/material/Grid'
 
@@ -15,7 +15,16 @@ import { ProformaContext } from 'lib/ui/context'
 
 function HomePage({user}) {
     const [ event, setEvent ] = useState({})
-    const [ company, setCompany ] = useState({})
+    const [ company, setCompany ] = useState({
+      companyName: 'asd',
+      taxNumber: 'asd',
+      city: 'asd',
+      address: 'asd',
+      zip: 'asd',
+      countryCode: 'HU',
+      country: 'Hungary',
+      email: 'asd',
+    })
     const [ tickets, setTickets ] = useState([])
     const [ lineItems, setLineItems ] = useState([])
     const [ discount, setDiscount ] = useState(0)
@@ -37,7 +46,19 @@ function HomePage({user}) {
       setLineItems(lineItems.filter(item => item.id !== id))
     }
 
-    const onSend = () => {}
+    const onSend = async () => {
+      await fetch('/api/proforma', {
+        method: 'POST',
+        body: JSON.stringify({
+          event: event,
+          partner: context.company,
+          lineItems: context.lineItems.map(item => {
+            item.price = item.itemPrice - (item.itemPrice * item.discount / 100)
+            return item
+          })
+        })
+      })
+    }
 
 
     return (
@@ -51,11 +72,12 @@ function HomePage({user}) {
             <Grid item xs={12} md={4}>
               <User user={user} />
                 <Tito />
-                <Company />
+                <Company data={company} />
             </Grid>
             <Grid item xs={12} md={8}>
               <Tickets />
               <LineItems
+                lineItems={ context.lineItems }
                 removeLine={ removeLineItem }
               />
               <Sum
@@ -72,13 +94,9 @@ function HomePage({user}) {
 export default HomePage
 
 export async function getServerSideProps({ req, res }) {
-  // Here you can check authentication status directly before rendering the page,
-  // however the page would be a serverless function, which is more expensive and
-  // slower than a static page with client side authentication
   const session = await auth0.getSession(req, res)
 
   if (!session || !session.user) {
-
     return { props: { user: null } }
   }
 

@@ -19,8 +19,8 @@ const TicketsForm = ({
   onChange,
   discount,
   setDiscount,
-  amount,
-  setAmount,
+  quantity,
+  setQuantity,
   onAdd
 }) => {
   const loading = (tickets.length === 0)
@@ -52,12 +52,12 @@ const TicketsForm = ({
         </FormControl>
         <FormControl>
           <TextField
-            id="amount"
-            label="Amount"
+            id="quantity"
+            label="Quantity"
             variant="outlined"
             type="number"
-            value={ amount }
-            onChange={ setAmount }
+            value={ quantity }
+            onChange={ setQuantity }
             disabled={ loading }
           />
         </FormControl>
@@ -108,11 +108,11 @@ export default function Tickets () {
   const context = useContext(ProformaContext);
 
   const [ selected, setSelected ] = useState()
-  const [ amount, setAmount ] = useState(0)
+  const [ quantity, setQuantity ] = useState(0)
 
   useEffect(() => {
     setSelected(context.tickets[0])
-    setAmount(1)
+    setQuantity(1)
   }, [context.tickets])
 
   const onTicketSelect = (event) => {
@@ -128,10 +128,10 @@ export default function Tickets () {
     }
   }
 
-  const onAmountChange = (event) => {
+  const onQuantityChange = (event) => {
     const value = parseInt(event.target.value, 10)
     if (value >= 0) {
-      setAmount(value)
+      setQuantity(value)
     }
   }
 
@@ -142,8 +142,8 @@ export default function Tickets () {
     const lineItem = {
       event: context.event,
       id: (Math.random() * 1000).toString(32),
-      ticket: selected.title,
-      amount,
+      title: selected.title,
+      quantity,
       itemPrice: selected.price,
       discount: context.discount
     }
@@ -154,11 +154,11 @@ export default function Tickets () {
     <>
         <TicketsForm
           discount={ context.discount }
-          amount={ amount }
+          quantity={ quantity }
           tickets={ context.tickets }
           value={ selected ?? context.tickets[0] ?? {} }
           setDiscount={ onDiscountChange }
-          setAmount={ onAmountChange }
+          setQuantity={ onQuantityChange }
           onChange={ onTicketSelect }
           onAdd={ onAdd }
         />

@@ -1,12 +1,10 @@
 import yaml from 'yaml';
 import szamlazz from '@jssc/szamlazz.js';
-import getPartnerFromOrder from 'lib/tito/partner-from-order'
-import getItemsFromOrder from 'lib/tito/items-from-order'
 import getPartner from 'lib/partner';
 import getSeller from 'lib/seller';
 import getItems from 'lib/lineitem';
-import getPaymentMethod from './get-payment-method';
 import getTaxComment from 'lib/tax/comment';
+import invoiceComment from 'lib/invoice/comment';
 
 export default async function create (
   order: any,
@@ -16,34 +14,33 @@ export default async function create (
   Item: any = szamlazz.Item,
   Invoice: any = szamlazz.Invoice
 ) {
-  const seller = getSeller(config);
-  const rawPartner = getPartnerFromOrder(order)
-  const partner = await getPartner(rawPartner);
-  const rawItems = getItemsFromOrder(order)
-  const items = getItems(rawItems, partner, config);
 
-  if (process.env.DEBUG) {
-    console.warn(yaml.stringify(order));
-  }
+  const seller = getSeller(config);
+
+  const partner = await getPartner(order.partner);
+  const items = getItems(order.lineItems, partner, config);
 
   const currency = config.invoice.currency;
-  const orderNumber = order.reference;
+  const orderNumber = (Math.random() * 1000).toString(32).replace('.','').toUpperCase();
   const invoiceIdPrefix = config.invoice['id-prefix'];
   const logoImage = config.invoice['logo-image'];
-  const comment = getTaxComment(partner, items) + '\n' + config.invoice.comment;
-
+  const comment = invoiceComment(partner, items, false, config)
   const szamlazzItems = items.map(item => new Item(item));
+  const dueDate = new Date(+new Date() + 1000 * 60 * 60 * 24 * 8);
   return new Invoice({
-    paymentMethod: getPaymentMethod(order),
+    paymentMethod: szamlazz.PaymentMethod.BankTransfer,
     currency: szamlazz.Currency[currency],
     language: szamlazz.Language.English,
     invoiceIdPrefix,
     logoImage,
     comment,
+    dueDate: dueDate,
+    fulfillmentDate: dueDate,
     orderNumber,
     seller: new Seller(seller),
     buyer: new Buyer(partner),
     items: szamlazzItems,
-    paid: true,
+    proforma: true,
+    paid: false
   });
-};
+}

@@ -22,7 +22,8 @@ export default (rawItems: RawItem[], buyer: Partner, eventConfig) => rawItems.re
       price,
       quantity,
       title,
-      isOnlineService
+      isOnlineService,
+      discount = 0
     } = ticket;
 
     if (price === 0) {
@@ -34,12 +35,14 @@ export default (rawItems: RawItem[], buyer: Partner, eventConfig) => rawItems.re
     const cateringPartial = getCateringPerTicket(title, eventConfig);
     const ticketPartial = roundTo(price - (cateringPartial * 1.27), 2);
 
+    const discountComment = (discount != 0) ? ` ${discount}% discount included.` : ``
+
     const item: Item = {
       label: title,
       quantity,
       unit: 'qt',
       vat: vatRate,
-      comment: `Ticket for ${eventConfig.label}, ${date}`,
+      comment: `Ticket for ${eventConfig.label}, ${date}.${discountComment}`,
     };
 
     if (vatRate === VatRate.TEHK) {

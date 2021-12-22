@@ -1,4 +1,5 @@
-import { useEffect, useState, useContext } from 'react'
+import { roundTo } from 'round-to'
+import discountPrice from 'lib/lineitem/discount-price';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -9,10 +10,8 @@ import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography'
 import DeleteIcon from '@mui/icons-material/Delete';
 import { red } from '@mui/material/colors';
-import { ProformaContext } from 'lib/ui/context'
 
-export default function LineItems({ removeLine }) {
-  const context = useContext(ProformaContext);
+export default function LineItems({ lineItems, removeLine }) {
 
   return (
     <TableContainer component={Paper} sx={{ marginTop: 2 }} >
@@ -27,8 +26,8 @@ export default function LineItems({ removeLine }) {
           </TableRow>
         </TableHead>
         <TableBody>
-          {context.lineItems.map((row) => {
-            const price = row.itemPrice - (row.itemPrice * row.discount / 100)
+          {lineItems.map((row) => {
+            const price = discountPrice(row.itemPrice, row.discount)
 
             let discountInfo = ''
             if (row.discount > 0) {
@@ -42,15 +41,15 @@ export default function LineItems({ removeLine }) {
               >
                 <TableCell component="th" scope="row">
                   <Typography sx={{ fontSize: 16, paddingLeft: 1 }} color="text.secondary" gutterBottom>
-                    {row.ticket} {discountInfo}
+                    {row.title} {discountInfo}
                   </Typography>
                   <Typography sx={{ fontSize: 12, paddingLeft: 1 }} color="text.secondary" gutterBottom>
                     {row.event.title}
                   </Typography>
                 </TableCell>
-                <TableCell align="right">{row.amount}</TableCell>
+                <TableCell align="right">{row.quantity}</TableCell>
                 <TableCell align="right">€{price}</TableCell>
-                <TableCell align="right">€{price * row.amount}</TableCell>
+                <TableCell align="right">€{roundTo(price * row.quantity, 2)}</TableCell>
                 <TableCell align="center">
                   <DeleteIcon
                     onClick={ () => removeLine(row.id) }

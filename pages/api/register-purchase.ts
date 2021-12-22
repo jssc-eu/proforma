@@ -2,6 +2,11 @@
 import validateRequest from 'lib/api/validate/request'
 import validatePayload from 'lib/api/validate/payload'
 import readConfig from 'lib/api/read-config'
+import { order as getOrder } from 'lib/tito'
+import attachReleaseMetaData from 'lib/tito/attach-release-metadata'
+import createInvoice from 'lib/invoice/create'
+import createClient from 'lib/szamlazzhu/create-client'
+import sendInvoice from 'lib/szamlazzhu/send-invoice'
 
 export const config = {
   api: {
@@ -32,10 +37,27 @@ export default async function callback(req, res) {
       res.status(200).end('No payment, no invoice')
       return;
     }
-    const eventsConfig = await readConfig();
 
-    const order = await getTitoOrder(req.body, process.env.TITO_API_TOKEN);
-    const invoice = await createInvoice(order, eventsConfig.events);
+    const registrationData = req.body
+    const {
+      event: {
+        account_slug: accountId,
+        slug: eventId,
+      },
+      slug: orderId,
+    } = registrationData;
+
+    const eventsConfig = await readConfig();
+    const eventConfig = eventsConfig.events[eventId]
+
+    if (typeof eventConfig == 'undefined') {
+      res.status(400).end();
+      return;
+    }
+
+    const rawOrder = await getOrder(accountId, eventId, orderId);
+    const order = attachReleaseMetaData(registrationData, rawOrder)
+    const invoice = await createInvoice(order, eventConfig);
 
     if (process.env.NODE_ENV !== 'production') {
       res.status(200).end(JSON.stringify(invoice));
@@ -44,7 +66,7 @@ export default async function callback(req, res) {
 
     const result = await sendInvoice(
       invoice,
-      createClient(eventsConfig.events, process.env.SZAMLAZZ_TOKEN)
+      createClient(eventConfig, process.env.SZAMLAZZ_TOKEN)
     );
     res.status(200).end(result);
   } catch (e) {

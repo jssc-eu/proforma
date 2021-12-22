@@ -29,3 +29,7 @@ export async function events (accountId) {
 export async function tickets(accountId, eventId) {
   return sendTitoRequest(`https://api.tito.io/v3/${accountId}/${eventId}/releases`)
 }
+
+export async function order(accountId, eventId, orderId) {
+  return sendTitoRequest(`https://api.tito.io/v3/${accountId}/${eventId}/registrations/${orderId}?view=extended`)
+}

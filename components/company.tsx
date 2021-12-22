@@ -1,6 +1,6 @@
 import { useEffect, useState, useContext } from 'react'
 
-import { getNames } from 'country-list'
+import { getNames, getCode } from 'country-list'
 
 import InputLabel from '@mui/material/InputLabel'
 import Select from '@mui/material/Select'
@@ -9,14 +9,20 @@ import FormControl from '@mui/material/FormControl'
 import TextField from '@mui/material/TextField'
 import { ProformaContext } from 'lib/ui/context'
 
-export default function Company () {
+export default function Company ({data}) {
 
   const context = useContext(ProformaContext);
 
   const update = (field, value) => {
-    const company = Object.assign({}, context.company, {
+    const fields = {
       [field]: value
-    })
+    }
+
+    if (field == 'country') {
+      fields['countryCode'] = getCode(value)
+    }
+
+    const company = Object.assign({}, context.company, fields)
     context.setCompany(company)
   }
 
@@ -27,7 +33,8 @@ export default function Company () {
           id="company-name"
           label="Company Name"
           variant="outlined"
-          onChange={ (e) => (update('name', e.target.value)) }
+          value={data.companyName}
+          onChange={ (e) => (update('companyName', e.target.value)) }
         />
       </FormControl>
       <FormControl fullWidth sx={{ marginTop: 2 }}>
@@ -35,12 +42,18 @@ export default function Company () {
           id="vat-number"
           label="VAT Number"
           variant="outlined"
-          onChange={ (e) => (update('vat', e.target.value)) }
+          value={data.taxNumber}
+          onChange={ (e) => (update('taxNumber', e.target.value)) }
         />
       </FormControl>
       <FormControl fullWidth sx={{ marginTop: 2 }}>
-        <TextField id="city" label="City" variant="outlined"
-        onChange={ (e) => (update('city', e.target.value)) } />
+        <TextField
+          id="city"
+          label="City"
+          variant="outlined"
+          value={data.city}
+          onChange={ (e) => (update('city', e.target.value)) }
+        />
       </FormControl>
       <FormControl fullWidth sx={{ marginTop: 2 }}>
         <TextField
@@ -48,12 +61,27 @@ export default function Company () {
           label="Address"
           variant="outlined" multiline
           rows={4}
+          value={data.address}
           onChange={ (e) => (update('address', e.target.value)) }
           />
       </FormControl>
       <FormControl fullWidth sx={{ marginTop: 2 }}>
-        <TextField id="postal-code" label="Postal Code" variant="outlined"
-        onChange={ (e) => (update('postalcode', e.target.value)) } />
+        <TextField
+          id="state"
+          label="State / Province"
+          variant="outlined"
+          value={data.state}
+          onChange={ (e) => (update('state', e.target.value)) }
+        />
+      </FormControl>
+      <FormControl fullWidth sx={{ marginTop: 2 }}>
+        <TextField
+          id="postal-code"
+          label="Postal Code"
+          variant="outlined"
+          value={data.zip}
+          onChange={ (e) => (update('zip', e.target.value)) }
+        />
       </FormControl>
       <FormControl fullWidth sx={{ marginTop: 2 }}>
         <InputLabel id="country">Country</InputLabel>
@@ -61,8 +89,8 @@ export default function Company () {
           labelId="country-label"
           id="country"
           label="Country"
-          value={ context.company.country || "" }
-          defaultValue={ context.company.country || "" }
+          value={ data.country || "" }
+          defaultValue={ data.country || "" }
           onChange={ (e) => (update('country', e.target.value)) }
         >
           { getNames().map((name) => (
@@ -80,6 +108,7 @@ export default function Company () {
           type="email"
           label="Email"
           variant="outlined"
+          value={data.email}
           onChange={ (e) => (update('email', e.target.value)) }
         />
       </FormControl>

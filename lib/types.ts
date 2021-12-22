@@ -41,6 +41,7 @@ export interface RawItem {
   quantity: number;
   title: string;
   isOnlineService: boolean;
+  discount?: number;
 }
 
 export interface Item {

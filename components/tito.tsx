@@ -80,6 +80,7 @@ export default function Tito () {
         setEvents(events)
         setEvent(events[0] || {}) // if empty
         context.setEvent(events[0] || {})
+        context.setLineItems([])
       })
   }, [account])
 
@@ -103,9 +104,10 @@ export default function Tito () {
         events={events}
         value={event}
         disabled={ events.length == 0 }
-        onChange={ (event) => {
-          setEvent(event.target.value)
-          context.setEvent(event.target.value)
+        onChange={ (e) => {
+          setEvent(e.target.value)
+          context.setEvent(e.target.value)
+          context.setLineItems([])
         } }
       />
     </>

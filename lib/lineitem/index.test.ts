@@ -205,7 +205,7 @@ describe('catering', () => {
 
     const items = getItemizedCosts(lineItems, buyerData, testEvents.fixDateSingleCatering);
     expect(items[0].label).toBe('Early Bird');
-    expect(items[0].comment).toBe('Ticket for JSConf Budapest 2021, September 23, 2020');
+    expect(items[0].comment).toBe('Ticket for JSConf Budapest 2021, September 23, 2020.');
     expect(items[1].label).toBe('Mediated services');
     expect(items[1].comment).toBe('Conference catering fee');
   });
@@ -269,7 +269,7 @@ describe('event date', () => {
 
     expect(items).toHaveLength(2);
     expect(items[0].label).toBe('Early Workshop ticket');
-    expect(items[0].comment).toBe('Ticket for JSConf Budapest 2021, September 23, 2020');
+    expect(items[0].comment).toBe('Ticket for JSConf Budapest 2021, September 23, 2020.');
     expect(items[1].label).toBe('Mediated services');
     expect(items[1].comment).toBe('Conference catering fee');
   });
@@ -281,8 +281,8 @@ describe('event date', () => {
     const items = getItemizedCosts(lineItems, buyerData, testEvents.multipleDateMultipleCatering);
 
     expect(items).toHaveLength(4);
-    expect(items[0].comment).toBe('Ticket for JSConf Budapest 2021, April 6-7, 2020');
-    expect(items[2].comment).toBe('Ticket for JSConf Budapest 2021, April 8, 2020');
+    expect(items[0].comment).toBe('Ticket for JSConf Budapest 2021, April 6-7, 2020.');
+    expect(items[2].comment).toBe('Ticket for JSConf Budapest 2021, April 8, 2020.');
   });
 });
 
