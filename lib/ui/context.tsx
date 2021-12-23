@@ -1,14 +1,14 @@
-import React from 'react'
+import React from 'react';
 
 export const ProformaContext = React.createContext({
-  event: '',
-  setEvent: (company: Object) => {},
+  event: {},
+  setEvent: (d) => {},
   company: {},
-  setCompany: (company: Object) => {},
+  setCompany: (d) => {},
   tickets: [],
-  setTickets: (tickets: Array<Object>) => {},
+  setTickets: (d) => {},
   lineItems: [],
-  setLineItems: (tickets: Array<Object>) => {},
+  setLineItems: (d) => {},
   discount: 0,
-  setDiscount: (discount: number) => {},
+  setDiscount: (d) => {},
 });

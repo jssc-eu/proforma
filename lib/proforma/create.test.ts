@@ -25,13 +25,13 @@ const order = {
       quantity: 2,
       price: 205.0,
       title: 'Early Bird',
-      isOnlineService: false
+      isOnlineService: false,
     },
     {
       quantity: 1,
       price: 0,
       title: 'Free ticket',
-      isOnlineService: false
+      isOnlineService: false,
     },
     {
       quantity: 1,

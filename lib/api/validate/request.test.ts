@@ -31,7 +31,7 @@ describe('request validation', () => {
 
   test('validate proper token', () => {
     expect(() => {
-      validateRequest({ method: 'POST',  query: { token: 'abcd1234' } });
+      validateRequest({ method: 'POST', query: { token: 'abcd1234' } });
     }).not.toThrow();
   });
 });

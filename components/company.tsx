@@ -1,30 +1,28 @@
-import { useEffect, useState, useContext } from 'react'
+import { useContext } from 'react';
 
-import { getNames, getCode } from 'country-list'
+import { getNames, getCode } from 'country-list';
 
-import InputLabel from '@mui/material/InputLabel'
-import Select from '@mui/material/Select'
-import MenuItem from '@mui/material/MenuItem'
-import FormControl from '@mui/material/FormControl'
-import TextField from '@mui/material/TextField'
-import { ProformaContext } from 'lib/ui/context'
+import InputLabel from '@mui/material/InputLabel';
+import Select from '@mui/material/Select';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import TextField from '@mui/material/TextField';
+import { ProformaContext } from 'lib/ui/context';
 
-export default function Company ({data}) {
-
+export default function Company ({ data }) {
   const context = useContext(ProformaContext);
-
-  const update = (field, value) => {
+  const update = (field:string, value:any) => {
     const fields = {
-      [field]: value
+      [field]: value,
+    };
+
+    if (field === 'country') {
+      fields.countryCode = getCode(value);
     }
 
-    if (field == 'country') {
-      fields['countryCode'] = getCode(value)
-    }
-
-    const company = Object.assign({}, context.company, fields)
-    context.setCompany(company)
-  }
+    const company = { ...data, ...fields };
+    context.setCompany(company);
+  };
 
   return (
     <>
@@ -34,7 +32,7 @@ export default function Company ({data}) {
           label="Company Name"
           variant="outlined"
           value={data.companyName}
-          onChange={ (e) => (update('companyName', e.target.value)) }
+          onChange={ e => (update('companyName', e.target.value)) }
         />
       </FormControl>
       <FormControl fullWidth sx={{ marginTop: 2 }}>
@@ -43,7 +41,7 @@ export default function Company ({data}) {
           label="VAT Number"
           variant="outlined"
           value={data.taxNumber}
-          onChange={ (e) => (update('taxNumber', e.target.value)) }
+          onChange={ e => (update('taxNumber', e.target.value)) }
         />
       </FormControl>
       <FormControl fullWidth sx={{ marginTop: 2 }}>
@@ -52,7 +50,7 @@ export default function Company ({data}) {
           label="City"
           variant="outlined"
           value={data.city}
-          onChange={ (e) => (update('city', e.target.value)) }
+          onChange={ e => (update('city', e.target.value)) }
         />
       </FormControl>
       <FormControl fullWidth sx={{ marginTop: 2 }}>
@@ -62,7 +60,7 @@ export default function Company ({data}) {
           variant="outlined" multiline
           rows={4}
           value={data.address}
-          onChange={ (e) => (update('address', e.target.value)) }
+          onChange={ e => (update('address', e.target.value)) }
           />
       </FormControl>
       <FormControl fullWidth sx={{ marginTop: 2 }}>
@@ -71,7 +69,7 @@ export default function Company ({data}) {
           label="State / Province"
           variant="outlined"
           value={data.state}
-          onChange={ (e) => (update('state', e.target.value)) }
+          onChange={ e => (update('state', e.target.value)) }
         />
       </FormControl>
       <FormControl fullWidth sx={{ marginTop: 2 }}>
@@ -80,7 +78,7 @@ export default function Company ({data}) {
           label="Postal Code"
           variant="outlined"
           value={data.zip}
-          onChange={ (e) => (update('zip', e.target.value)) }
+          onChange={ e => (update('zip', e.target.value)) }
         />
       </FormControl>
       <FormControl fullWidth sx={{ marginTop: 2 }}>
@@ -89,11 +87,11 @@ export default function Company ({data}) {
           labelId="country-label"
           id="country"
           label="Country"
-          value={ data.country || "" }
-          defaultValue={ data.country || "" }
-          onChange={ (e) => (update('country', e.target.value)) }
+          value={ data.country || '' }
+          defaultValue={ data.country || '' }
+          onChange={ e => (update('country', e.target.value)) }
         >
-          { getNames().map((name) => (
+          { getNames().map(name => (
             <MenuItem
             key={name}
             value={name}>
@@ -109,9 +107,9 @@ export default function Company ({data}) {
           label="Email"
           variant="outlined"
           value={data.email}
-          onChange={ (e) => (update('email', e.target.value)) }
+          onChange={ e => (update('email', e.target.value)) }
         />
       </FormControl>
     </>
-  )
+  );
 }

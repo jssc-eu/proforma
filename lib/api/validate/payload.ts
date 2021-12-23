@@ -1,5 +1,5 @@
 import crypto from 'crypto';
-import Boom from '@hapi/boom'
+import Boom from '@hapi/boom';
 
 export default function validatePayload (request) {
   const signature = request.headers['tito-signature'];

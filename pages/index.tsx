@@ -1,21 +1,21 @@
-import { useEffect, useState, useContext } from 'react'
+import { useState } from 'react';
 
-import auth0 from 'lib/auth0'
-import Grid from '@mui/material/Grid'
+import auth0 from 'lib/auth0';
+import Grid from '@mui/material/Grid';
 
-import Login from 'components/login'
-import User from 'components/user'
-import Tito from 'components/tito'
-import Company from 'components/company'
-import Tickets from 'components/tickets'
-import LineItems from 'components/lineitems'
-import Sum from 'components/sum'
+import Login from 'components/login';
+import User from 'components/user';
+import Tito from 'components/tito';
+import Company from 'components/company';
+import Tickets from 'components/tickets';
+import LineItems from 'components/lineitems';
+import Sum from 'components/sum';
 
-import { ProformaContext } from 'lib/ui/context'
+import { ProformaContext } from 'lib/ui/context';
 
-function HomePage({user}) {
-    const [ event, setEvent ] = useState({})
-    const [ company, setCompany ] = useState({
+function HomePage({ user }) {
+    const [event, setEvent] = useState({});
+    const [company, setCompany] = useState({
       companyName: 'asd',
       taxNumber: 'asd',
       city: 'asd',
@@ -24,10 +24,10 @@ function HomePage({user}) {
       countryCode: 'HU',
       country: 'Hungary',
       email: 'asd',
-    })
-    const [ tickets, setTickets ] = useState([])
-    const [ lineItems, setLineItems ] = useState([])
-    const [ discount, setDiscount ] = useState(0)
+    });
+    const [tickets, setTickets] = useState([]);
+    const [lineItems, setLineItems] = useState([]);
+    const [discount, setDiscount] = useState(0);
 
     const context = {
       event,
@@ -40,25 +40,25 @@ function HomePage({user}) {
       setLineItems,
       discount,
       setDiscount,
-    }
+    };
 
     const removeLineItem = (id) => {
-      setLineItems(lineItems.filter(item => item.id !== id))
-    }
+      setLineItems(lineItems.filter(item => item.id !== id));
+    };
 
     const onSend = async () => {
       await fetch('/api/proforma', {
         method: 'POST',
         body: JSON.stringify({
-          event: event,
+          event,
           partner: context.company,
-          lineItems: context.lineItems.map(item => {
-            item.price = item.itemPrice - (item.itemPrice * item.discount / 100)
-            return item
-          })
-        })
-      })
-    }
+          lineItems: context.lineItems.map((item) => {
+            item.price = item.itemPrice - (item.itemPrice * item.discount / 100);
+            return item;
+          }),
+        }),
+      });
+    };
 
 
     return (
@@ -70,17 +70,19 @@ function HomePage({user}) {
           <ProformaContext.Provider value={ context }>
           <Grid container spacing={2}>
             <Grid item xs={12} md={4}>
-              <User user={user} />
+                <User user={user} />
                 <Tito />
                 <Company data={company} />
             </Grid>
             <Grid item xs={12} md={8}>
               <Tickets />
               <LineItems
-                lineItems={ context.lineItems }
+                lineItems={ lineItems }
                 removeLine={ removeLineItem }
               />
               <Sum
+                lineItems={ lineItems }
+                company={company}
                 send={ onSend }
               />
             </Grid>
@@ -88,17 +90,17 @@ function HomePage({user}) {
           </ProformaContext.Provider>
         )}
       </>
-    )
+    );
 }
 
-export default HomePage
+export default HomePage;
 
 export async function getServerSideProps({ req, res }) {
-  const session = await auth0.getSession(req, res)
+  const session = await auth0.getSession(req, res);
 
   if (!session || !session.user) {
-    return { props: { user: null } }
+    return { props: { user: null } };
   }
 
-  return { props: { user: session.user } }
+  return { props: { user: session.user } };
 }

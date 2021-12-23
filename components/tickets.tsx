@@ -1,17 +1,17 @@
-import { useEffect, useState, useContext } from 'react'
+import { useEffect, useState, useContext } from 'react';
 
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import Button from '@mui/material/Button';
 import Select from '@mui/material/Select';
-import InputLabel from '@mui/material/InputLabel'
+import InputLabel from '@mui/material/InputLabel';
 import FormControl from '@mui/material/FormControl';
-import TextField from '@mui/material/TextField'
-import MenuItem from '@mui/material/MenuItem'
-import CircularProgress from '@mui/material/CircularProgress'
+import TextField from '@mui/material/TextField';
+import MenuItem from '@mui/material/MenuItem';
+import CircularProgress from '@mui/material/CircularProgress';
 
-import { ProformaContext } from 'lib/ui/context'
+import { ProformaContext } from 'lib/ui/context';
 
 const TicketsForm = ({
   tickets,
@@ -21,15 +21,15 @@ const TicketsForm = ({
   setDiscount,
   quantity,
   setQuantity,
-  onAdd
+  onAdd,
 }) => {
-  const loading = (tickets.length === 0)
+  const loading = (tickets.length === 0);
   return (
     <Card>
       <CardContent sx={{
         display: 'grid',
         gridTemplateColumns: '4fr 1fr',
-        gridGap: '1rem'
+        gridGap: '1rem',
       }}>
         <FormControl disabled={ loading }>
           <InputLabel id="ticket-label">Ticket</InputLabel>
@@ -89,12 +89,12 @@ const TicketsForm = ({
                     color="inherit"
                     size={18}
                     sx={{
-                      marginRight: '1rem'
+                      marginRight: '1rem',
                     }}/>
                   Loading
                 </>
               ) }
-              { ! loading && (
+              { !loading && (
                 <>
                   Add
                 </>
@@ -102,53 +102,53 @@ const TicketsForm = ({
           </Button>
       </CardActions>
     </Card>
-  )
-}
+  );
+};
 export default function Tickets () {
   const context = useContext(ProformaContext);
 
-  const [ selected, setSelected ] = useState()
-  const [ quantity, setQuantity ] = useState(0)
+  const [selected, setSelected] = useState({
+    title: '',
+    price: '',
+  });
+  const [quantity, setQuantity] = useState(0);
 
   useEffect(() => {
-    setSelected(context.tickets[0])
-    setQuantity(1)
-  }, [context.tickets])
+    setSelected(context.tickets[0]);
+    setQuantity(1);
+  }, [context.tickets]);
 
   const onTicketSelect = (event) => {
-    const value = event.target.value
-    const ticket = context.tickets.find(t => t.title === value)
-    setSelected(ticket)
-  }
+    const value = event.target.value;
+    const ticket = context.tickets.find(t => t.title === value);
+    setSelected(ticket);
+  };
 
   const onDiscountChange = (event) => {
-    const value = parseInt(event.target.value, 10)
+    const value = parseInt(event.target.value, 10);
     if (value >= 0 && value <= 100) {
-      context.setDiscount(value)
+      context.setDiscount(value);
     }
-  }
+  };
 
   const onQuantityChange = (event) => {
-    const value = parseInt(event.target.value, 10)
+    const value = parseInt(event.target.value, 10);
     if (value >= 0) {
-      setQuantity(value)
+      setQuantity(value);
     }
-  }
+  };
 
   const onAdd = () => {
-    if (!selected) {
-      return
-    }
     const lineItem = {
       event: context.event,
       id: (Math.random() * 1000).toString(32),
       title: selected.title,
       quantity,
       itemPrice: selected.price,
-      discount: context.discount
-    }
-    context.setLineItems([...context.lineItems, lineItem])
-  }
+      discount: context.discount,
+    };
+    context.setLineItems([...context.lineItems, lineItem]);
+  };
 
   return (
     <>
@@ -163,5 +163,5 @@ export default function Tickets () {
           onAdd={ onAdd }
         />
     </>
-  )
+  );
 }

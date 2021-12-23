@@ -12,7 +12,7 @@ const partner: RawPartner = {
   countryCode: 'DE',
   taxNumber: '234536',
   companyName: 'Teszt Company GMBH',
-}
+};
 
 describe('get tax subject', () => {
   test('not a tax subject', () => {

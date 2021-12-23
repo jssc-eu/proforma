@@ -1,6 +1,6 @@
 
 import { RawPartner } from 'lib/types';
-import deepClone from 'lib/deepclone'
+import deepClone from 'lib/deepclone';
 import getPartner from '.';
 
 const partner:RawPartner = {
@@ -13,7 +13,7 @@ const partner:RawPartner = {
   countryCode: 'DE',
   taxNumber: '234536',
   companyName: 'Teszt Company GMBH',
-}
+};
 
 describe('get buyer', () => {
   test('buyer with vat number', async () => {

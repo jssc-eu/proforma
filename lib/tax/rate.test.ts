@@ -1,5 +1,5 @@
 import { RawPartner, VatRate } from 'lib/types';
-import deepClone from 'lib/deepclone'
+import deepClone from 'lib/deepclone';
 import getVatRate from 'lib/tax/rate';
 
 const partner: RawPartner = {
@@ -12,7 +12,7 @@ const partner: RawPartner = {
   countryCode: 'DE',
   taxNumber: '234536',
   companyName: 'Teszt Company GMBH',
-}
+};
 
 describe('get vat rate', () => {
   test('hu individual / non vat subject', () => {

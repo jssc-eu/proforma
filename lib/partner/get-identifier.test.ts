@@ -1,5 +1,5 @@
 import { RawPartner } from 'lib/types';
-import deepClone from 'lib/deepclone'
+import deepClone from 'lib/deepclone';
 
 import getBuyerIdentifier from './get-identifier';
 
@@ -44,7 +44,7 @@ describe('get buyer identifier', () => {
   test('buyer with email, no company, no vat', async () => {
     const order = deepClone(partner);
 
-    delete order.taxNumber
+    delete order.taxNumber;
     delete order.companyName;
 
     const identifier = await getBuyerIdentifier(order);

@@ -14,17 +14,16 @@ export default async function create (
   Item: any = szamlazz.Item,
   Invoice: any = szamlazz.Invoice
 ) {
-
   const seller = getSeller(config);
 
   const partner = await getPartner(order.partner);
   const items = getItems(order.lineItems, partner, config);
 
   const currency = config.invoice.currency;
-  const orderNumber = (Math.random() * 1000).toString(32).replace('.','').toUpperCase();
+  const orderNumber = (Math.random() * 1000).toString(32).replace('.', '').toUpperCase();
   const invoiceIdPrefix = config.invoice['id-prefix'];
   const logoImage = config.invoice['logo-image'];
-  const comment = invoiceComment(partner, items, false, config)
+  const comment = invoiceComment(partner, items, false, config);
   const szamlazzItems = items.map(item => new Item(item));
   const dueDate = new Date(+new Date() + 1000 * 60 * 60 * 24 * 8);
   return new Invoice({
@@ -34,13 +33,13 @@ export default async function create (
     invoiceIdPrefix,
     logoImage,
     comment,
-    dueDate: dueDate,
+    dueDate,
     fulfillmentDate: dueDate,
     orderNumber,
     seller: new Seller(seller),
     buyer: new Buyer(partner),
     items: szamlazzItems,
     proforma: true,
-    paid: false
+    paid: false,
   });
 }

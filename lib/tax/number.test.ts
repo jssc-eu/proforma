@@ -10,7 +10,7 @@ const partner = {
   zip: '1061',
   countryCode: 'DE',
   taxNumber: '234536',
-}
+};
 
 
 describe('get tax number', () => {

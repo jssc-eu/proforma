@@ -1,6 +1,6 @@
-import { useEffect, useState, useContext } from 'react'
-import { roundTo } from 'round-to'
-import discountPrice  from 'lib/lineitem/discount-price';
+import { useEffect, useState, useContext } from 'react';
+import { roundTo } from 'round-to';
+import discountPrice from 'lib/lineitem/discount-price';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -11,37 +11,36 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import Button from '@mui/material/Button';
 
-import { ProformaContext } from 'lib/ui/context'
+import { ProformaContext } from 'lib/ui/context';
 
-export default function Sum ({ send }) {
-
+export default function Sum ({ send, lineItems, company }) {
   const context = useContext(ProformaContext);
-  const [ disabled, setDisabled ] = useState(true)
+  const [disabled, setDisabled] = useState(true);
 
   useEffect(() => {
     if (
-      context.lineItems.length > 0
-      && context.company.companyName
-      && context.company.taxNumber
-      && context.company.city
-      && context.company.address
-      && context.company.zip
-      && context.company.countryCode
-      && context.company.email
+      lineItems.length > 0
+      && company.companyName
+      && company.taxNumber
+      && company.city
+      && company.address
+      && company.zip
+      && company.countryCode
+      && company.email
     ) {
-      setDisabled(false)
+      setDisabled(false);
     } else {
-      setDisabled(true)
+      setDisabled(true);
     }
-  }, [context.lineItems, context.company])
+  }, [context.lineItems, context.company]);
 
   const total = context.lineItems.reduce((sum, item) => {
     const {
       quantity,
       itemPrice,
-      discount
-    } = item
-    return sum + (quantity * discountPrice(itemPrice, discount))
+      discount,
+    } = item;
+    return sum + (quantity * discountPrice(itemPrice, discount));
   }, 0);
 
   return (<TableContainer component={Paper} sx={{ marginTop: 2 }} >
@@ -85,6 +84,6 @@ export default function Sum ({ send }) {
         </TableRow>
       </TableFooter>
     </Table>
-  </TableContainer>)
+  </TableContainer>);
 }
 

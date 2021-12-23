@@ -6,7 +6,6 @@ import crypto from 'crypto';
 const payloadEvent = { foo: 'bar', event: { slug: 'reinforce2020' } };
 
 describe('tito payload validation', () => {
-
   test('validate event payload with hash mismatch', () => {
     expect(() => {
       validateTitoPayload({

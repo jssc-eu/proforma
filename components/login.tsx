@@ -1,4 +1,4 @@
-import Container from '@mui/material/Container'
+import Container from '@mui/material/Container';
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
@@ -25,5 +25,5 @@ export default function Login ({ }) {
       </CardActions>
     </Card>
     </Container>
-  )
+  );
 }

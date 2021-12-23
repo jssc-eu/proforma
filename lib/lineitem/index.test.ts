@@ -7,13 +7,13 @@ const tickets = [
     quantity: 2,
     price: 205.0,
     title: 'Early Bird',
-    isOnlineService: false
+    isOnlineService: false,
   },
   {
     quantity: 1,
     price: 0,
     title: 'Free ticket',
-    isOnlineService: false
+    isOnlineService: false,
   },
   {
     quantity: 1,
@@ -184,7 +184,7 @@ const buyerData: Partner = {
     city: 'City',
     address: 'addressWithState',
   },
-  identifier: "1",
+  identifier: '1',
   phone: '',
   issuerName: 'name',
   isTEHK: false,
@@ -211,7 +211,6 @@ describe('catering', () => {
   });
 
   test('rounds prices to 2 digits', () => {
-
     const lineItems = [tickets[0]];
 
     const items = getItemizedCosts(lineItems, buyerData, testEvents.fixDateSingleCatering);
@@ -221,7 +220,6 @@ describe('catering', () => {
   });
 
   test('rounding without errors', () => {
-
     const lineItems = [tickets[0]];
 
     const items = getItemizedCosts(lineItems, buyerData, testEvents.fixDateSingleCatering);
@@ -230,7 +228,6 @@ describe('catering', () => {
   });
 
   test('skip catering item if its free', () => {
-
     const lineItems = [tickets[0], tickets[4]];
 
     const items = getItemizedCosts(lineItems, buyerData, testEvents.fixDateFreeCatering);
@@ -240,7 +237,6 @@ describe('catering', () => {
   });
 
   test('skip items if they are free', () => {
-
     const lineItems = [tickets[1], tickets[4]];
 
     const items = getItemizedCosts(lineItems, buyerData, testEvents.fixDateFreeCatering);
@@ -250,7 +246,6 @@ describe('catering', () => {
   });
 
   test('multiple orders with different catering', () => {
-
     const lineItems = [tickets[0], tickets[3]];
 
     const items = getItemizedCosts(lineItems, buyerData, testEvents.fixDateMultipleCatering);
@@ -262,7 +257,6 @@ describe('catering', () => {
 
 describe('event date', () => {
   test('determines date according to ticket name', () => {
-
     const lineItems = [tickets[2]];
 
     const items = getItemizedCosts(lineItems, buyerData, testEvents.fixDateSingleCatering);
@@ -275,7 +269,6 @@ describe('event date', () => {
   });
 
   test('multiple orders with different date', () => {
-
     const lineItems = [tickets[0], tickets[2]];
 
     const items = getItemizedCosts(lineItems, buyerData, testEvents.multipleDateMultipleCatering);
@@ -288,7 +281,6 @@ describe('event date', () => {
 
 describe('VAT TEHK type', () => {
   test('HU without VAT', () => {
-
     const lineItems = [tickets[0]];
 
     const buyer = deepClone(buyerData);
@@ -302,7 +294,6 @@ describe('VAT TEHK type', () => {
   });
 
   test('HU with VAT', () => {
-
     const lineItems = [tickets[0], tickets[2]];
 
     const buyer = deepClone(buyerData);
@@ -316,7 +307,6 @@ describe('VAT TEHK type', () => {
   });
 
   test('EU without VAT', () => {
-
     const lineItems = [tickets[0], tickets[2]];
 
     const buyer = deepClone(buyerData);
@@ -330,7 +320,6 @@ describe('VAT TEHK type', () => {
   });
 
   test('EU with VAT', () => {
-
     const lineItems = [tickets[0], tickets[2]];
 
     const buyer = deepClone(buyerData);
@@ -346,7 +335,6 @@ describe('VAT TEHK type', () => {
   });
 
   test('EU Online Service with VAT', () => {
-
     const lineItems = [tickets[0], tickets[2], tickets[4]];
 
     const buyer = deepClone(buyerData);
@@ -363,7 +351,6 @@ describe('VAT TEHK type', () => {
   });
 
   test('outside EU without VAT', () => {
-
     const lineItems = [tickets[0], tickets[2]];
 
     const buyer = deepClone(buyerData);
@@ -377,7 +364,6 @@ describe('VAT TEHK type', () => {
   });
 
   test('outside EU with VAT', () => {
-
     const lineItems = [tickets[0], tickets[2]];
 
     const buyer = deepClone(buyerData);
@@ -391,7 +377,6 @@ describe('VAT TEHK type', () => {
   });
 
   test('outside EU Online Service with VAT', () => {
-
     const lineItems = [tickets[0], tickets[4]];
 
     const buyer = deepClone(buyerData);
@@ -403,7 +388,6 @@ describe('VAT TEHK type', () => {
     expect(items[0].vat).toBe(27);
     expect(items[1].vat).toBe(27);
     expect(items[2].vat).toBe(27);
-
   });
 });
 

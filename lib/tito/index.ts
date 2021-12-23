@@ -1,35 +1,34 @@
-import Boom from '@hapi/boom'
+import Boom from '@hapi/boom';
 
 export async function sendTitoRequest (url: string) {
-  const res = await fetch(
-    url, {
+  const res = await fetch(url, {
     headers: {
       Authorization: `Token token=${process.env.TITO_API_TOKEN}`,
-      Accept: `application/json`
-    }
-  })
+      Accept: `application/json`,
+    },
+  });
 
   if (res.status !== 200) {
-    throw new Boom.Boom("An error occured with Tito", {
-      statusCode: res.status
-    })
+    throw new Boom.Boom('An error occured with Tito', {
+      statusCode: res.status,
+    });
   }
 
-  return res
+  return res;
 }
 
 export async function accounts () {
-  return sendTitoRequest('https://api.tito.io/v3/hello')
+  return sendTitoRequest('https://api.tito.io/v3/hello');
 }
 
 export async function events (accountId) {
-  return sendTitoRequest(`https://api.tito.io/v3/${accountId}/events`)
+  return sendTitoRequest(`https://api.tito.io/v3/${accountId}/events`);
 }
 
 export async function tickets(accountId, eventId) {
-  return sendTitoRequest(`https://api.tito.io/v3/${accountId}/${eventId}/releases`)
+  return sendTitoRequest(`https://api.tito.io/v3/${accountId}/${eventId}/releases`);
 }
 
 export async function order(accountId, eventId, orderId) {
-  return sendTitoRequest(`https://api.tito.io/v3/${accountId}/${eventId}/registrations/${orderId}?view=extended`)
+  return sendTitoRequest(`https://api.tito.io/v3/${accountId}/${eventId}/registrations/${orderId}?view=extended`);
 }

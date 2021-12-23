@@ -1,6 +1,6 @@
 
-import Container from '@mui/material/Container'
-import Box from '@mui/material/Box'
+import Container from '@mui/material/Container';
+import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
@@ -14,7 +14,7 @@ export default function User ({ user }) {
       <CardContent sx={{
         display: 'flex',
         alignItems: 'center',
-        paddingBottom: '2.6rem'
+        paddingBottom: '2.6rem',
       }}>
         <Avatar alt={user.name} src={user.picture} />
         <Typography sx={{ fontSize: 14, paddingLeft: 1 }} color="text.secondary" gutterBottom>
@@ -27,5 +27,5 @@ export default function User ({ user }) {
         </Button>
       </CardActions>
     </Card>
-  )
+  );
 }

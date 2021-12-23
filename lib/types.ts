@@ -57,6 +57,6 @@ export interface Item {
 }
 
 export enum VatRate {
-  TEHK = "TEHK",
+  TEHK = 'TEHK',
   Regular = 27,
 }

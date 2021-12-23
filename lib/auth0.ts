@@ -1,4 +1,4 @@
-import { initAuth0 } from '@auth0/nextjs-auth0'
+import { initAuth0 } from '@auth0/nextjs-auth0';
 
 export default initAuth0({
   secret: process.env.AUTH0_SECRET,
@@ -19,4 +19,4 @@ export default initAuth0({
   session: {
     absoluteDuration: parseInt(process.env.SESSION_COOKIE_LIFETIME, 10),
   },
-})
+});

@@ -27,5 +27,5 @@ export default function getPartnerFromOrder(order): RawPartner {
     zip,
     countryCode,
     state,
-  }
+  };
 }

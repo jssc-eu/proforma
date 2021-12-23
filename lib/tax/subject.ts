@@ -2,7 +2,7 @@ import szamlazz from '@jssc/szamlazz.js';
 import { RawPartner } from 'lib/types';
 import countryCodes from 'lib/countrycodes';
 
-export default function getTaxSubject(raw: Partial<RawPartner> ):szamlazz.TaxSubject {
+export default function getTaxSubject(raw: Partial<RawPartner>):szamlazz.TaxSubject {
   const {
     companyName,
     countryCode,

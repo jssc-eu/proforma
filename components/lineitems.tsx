@@ -1,4 +1,4 @@
-import { roundTo } from 'round-to'
+import { roundTo } from 'round-to';
 import discountPrice from 'lib/lineitem/discount-price';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -7,12 +7,11 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import Typography from '@mui/material/Typography'
+import Typography from '@mui/material/Typography';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { red } from '@mui/material/colors';
 
 export default function LineItems({ lineItems, removeLine }) {
-
   return (
     <TableContainer component={Paper} sx={{ marginTop: 2 }} >
       <Table aria-label="simple table">
@@ -27,11 +26,11 @@ export default function LineItems({ lineItems, removeLine }) {
         </TableHead>
         <TableBody>
           {lineItems.map((row) => {
-            const price = discountPrice(row.itemPrice, row.discount)
+            const price = discountPrice(row.itemPrice, row.discount);
 
-            let discountInfo = ''
+            let discountInfo = '';
             if (row.discount > 0) {
-              discountInfo=`(with ${row.discount}% discount)`
+              discountInfo = `(with ${row.discount}% discount)`;
             }
 
             return (
@@ -57,7 +56,8 @@ export default function LineItems({ lineItems, removeLine }) {
                   />
                 </TableCell>
               </TableRow>
-          )})}
+          );
+})}
         </TableBody>
       </Table>
     </TableContainer>

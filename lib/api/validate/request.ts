@@ -1,4 +1,4 @@
-import Boom from '@hapi/boom'
+import Boom from '@hapi/boom';
 
 const { TITO_WEBHOOK_TOKEN } = process.env;
 

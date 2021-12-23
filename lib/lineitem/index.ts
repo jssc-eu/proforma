@@ -11,11 +11,11 @@ const getDate = (ticket, config) => {
 
 const getVatRateField = (buyer, isOnlineService) => {
   if (isOnlineService && buyer.isTEHK) {
-    return VatRate.TEHK
+    return VatRate.TEHK;
   }
 
-  return VatRate.Regular
-}
+  return VatRate.Regular;
+};
 
 export default (rawItems: RawItem[], buyer: Partner, eventConfig) => rawItems.reduce((items, ticket) => {
     const {
@@ -23,7 +23,7 @@ export default (rawItems: RawItem[], buyer: Partner, eventConfig) => rawItems.re
       quantity,
       title,
       isOnlineService,
-      discount = 0
+      discount = 0,
     } = ticket;
 
     if (price === 0) {
@@ -35,7 +35,7 @@ export default (rawItems: RawItem[], buyer: Partner, eventConfig) => rawItems.re
     const cateringPartial = getCateringPerTicket(title, eventConfig);
     const ticketPartial = roundTo(price - (cateringPartial * 1.27), 2);
 
-    const discountComment = (discount != 0) ? ` ${discount}% discount included.` : ``
+    const discountComment = (discount != 0) ? ` ${discount}% discount included.` : ``;
 
     const item: Item = {
       label: title,

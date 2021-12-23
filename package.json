@@ -22,7 +22,9 @@
     "country-list": "^2.2.0",
     "dedent": "^0.7.0",
     "eslint": "^8.5.0",
+    "eslint-config-next": "^12.0.7",
     "eslint-plugin-jest": "^25.3.0",
+    "eslint-plugin-next": "^0.0.0",
     "jest": "^27.4.5",
     "mailgun-js": "^0.22.0",
     "mockdate": "^3.0.5",
@@ -74,6 +76,9 @@
       "<rootDir>/dist/",
       "<rootDir>/szamlazz/"
     ],
-    "moduleDirectories": ["node_modules", "."]
+    "moduleDirectories": [
+      "node_modules",
+      "."
+    ]
   }
 }

@@ -1,7 +1,7 @@
 
 import { Partner, Item } from 'lib/types';
 import getTaxComment, { NON_VAT_ACT, REVERSE_CHARGE_VAT } from 'lib/tax/comment';
-import deepClone from 'lib/deepclone'
+import deepClone from 'lib/deepclone';
 
 const buyerData: Partner = {
   name: 'buyerName',
@@ -19,7 +19,7 @@ const buyerData: Partner = {
     city: 'City',
     address: 'addressWithState',
   },
-  identifier: "1",
+  identifier: '1',
   phone: '',
   issuerName: 'name',
   isTEHK: false,
@@ -30,9 +30,9 @@ const itemsData: Item[] = [
     label: 'regular ticket',
     quantity: 1,
     unit: '',
-    vat: 27
-  }
-]
+    vat: 27,
+  },
+];
 
 
 describe('get VAT related comments', () => {
@@ -89,7 +89,7 @@ describe('get VAT related comments', () => {
       label: 'online ticket',
       quantity: 1,
       unit: '',
-      vat: 'TEHK'
+      vat: 'TEHK',
     });
 
     const comment = getTaxComment(buyer, items);

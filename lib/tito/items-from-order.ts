@@ -2,11 +2,11 @@ import { RawItem } from 'lib/types';
 
 const getOnlineService = (release) => {
   if (release && release.metadata) {
-    return release.metadata["online-service"] ?? false
+    return release.metadata['online-service'] ?? false;
   }
 
-  return false
-}
+  return false;
+};
 
 export default function getPartnerFromOrder(order): RawItem[] {
   const {
@@ -17,6 +17,6 @@ export default function getPartnerFromOrder(order): RawItem[] {
     price: item.price,
     quantity: item.quantity,
     title: item.release_title,
-    isOnlineService: getOnlineService(item.release)
-  }))
+    isOnlineService: getOnlineService(item.release),
+  }));
 }

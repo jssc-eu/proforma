@@ -1,5 +1,5 @@
-import Head from 'next/head'
-import Header from './header'
+import Head from 'next/head';
+import Header from './header';
 
 function Layout({ user, loading = false, children }) {
   return (
@@ -27,7 +27,7 @@ function Layout({ user, loading = false, children }) {
         }
       `}</style>
     </>
-  )
+  );
 }
 
-export default Layout
+export default Layout;

@@ -1,5 +1,5 @@
-//import validateVat from 'validate-vat';
-import validateVat, { CountryCodes, ViesValidationResponse} from 'validate-vat-ts';
+// import validateVat from 'validate-vat';
+import validateVat, { CountryCodes, ViesValidationResponse } from 'validate-vat-ts';
 
 enum ShortCountryCodes {
   AT = CountryCodes.Austria,
@@ -33,7 +33,6 @@ enum ShortCountryCodes {
 };
 
 export default async (countryCode: string, vatId: string) => {
-
   let vatNumber = vatId;
   const rgx = new RegExp(`^${countryCode}`, 'gi');
   if (rgx.test(vatNumber)) {
@@ -45,8 +44,8 @@ export default async (countryCode: string, vatId: string) => {
   const validationInfo: ViesValidationResponse = await validateVat(ShortCountryCodes[countryCode], vatNumber);
 
   if (typeof validationInfo === 'undefined') {
-    throw Error("No validation info received");
+    throw Error('No validation info received');
   }
 
-  return validationInfo.valid
-}
+  return validationInfo.valid;
+};

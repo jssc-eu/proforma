@@ -1,7 +1,7 @@
 import yaml from 'yaml';
 import szamlazz from '@jssc/szamlazz.js';
-import getPartnerFromOrder from 'lib/tito/partner-from-order'
-import getItemsFromOrder from 'lib/tito/items-from-order'
+import getPartnerFromOrder from 'lib/tito/partner-from-order';
+import getItemsFromOrder from 'lib/tito/items-from-order';
 import getPartner from 'lib/partner';
 import getSeller from 'lib/seller';
 import getItems from 'lib/lineitem';
@@ -17,9 +17,9 @@ export default async function create (
   Invoice: any = szamlazz.Invoice
 ) {
   const seller = getSeller(config);
-  const rawPartner = getPartnerFromOrder(order)
+  const rawPartner = getPartnerFromOrder(order);
   const partner = await getPartner(rawPartner);
-  const rawItems = getItemsFromOrder(order)
+  const rawItems = getItemsFromOrder(order);
   const items = getItems(rawItems, partner, config);
 
   if (process.env.DEBUG) {
