@@ -100,16 +100,6 @@ export default function Company ({ data }) {
           )) }
         </Select>
       </FormControl>
-      <FormControl fullWidth sx={{ marginTop: 2 }}>
-        <TextField
-          id="email"
-          type="email"
-          label="Email"
-          variant="outlined"
-          value={data.email}
-          onChange={ e => (update('email', e.target.value)) }
-        />
-      </FormControl>
     </>
   );
 }

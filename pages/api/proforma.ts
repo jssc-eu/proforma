@@ -23,10 +23,12 @@ export default async function callback(req, res) {
     const proforma = await createProforma(data, eventConfig);
 
     if (process.env.NODE_ENV !== 'production') {
+      console.log(proforma)
+
       res
         .setHeader('Content-Type', 'application/json')
         .status(200)
-        .end(JSON.stringify(proforma));
+        .end('D-JSCBP-38');
       return;
     }
 

@@ -45,6 +45,9 @@
     "lint": "next lint",
     "test": "jest"
   },
+  "engines": {
+    "node": "16.x"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/jssc-eu/proforma.git"

@@ -10,7 +10,7 @@ export default async function getPartner(raw: RawPartner): Promise<Partner> {
   const {
     reference,
     name,
-    email,
+    email = '',
     companyName,
     address,
     city,
@@ -42,7 +42,7 @@ export default async function getPartner(raw: RawPartner): Promise<Partner> {
   const data : Partner = {
     name: buyerName,
     email,
-    sendEmail: true,
+    sendEmail: (email != '') ? true : false,
     country: countryCode,
     taxNumber,
     taxSubject: getTaxSubject(raw),

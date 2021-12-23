@@ -26,7 +26,6 @@ export default function Sum ({ send, lineItems, company }) {
       && company.address
       && company.zip
       && company.countryCode
-      && company.email
     ) {
       setDisabled(false);
     } else {
