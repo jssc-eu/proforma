@@ -1,5 +1,5 @@
-import { useState } from 'react';
 
+import { useState } from 'react';
 import auth0 from 'lib/auth0';
 import Grid from '@mui/material/Grid';
 
@@ -11,6 +11,12 @@ import Tickets from 'components/tickets';
 import LineItems from 'components/lineitems';
 import Sum from 'components/sum';
 import Progress from 'components/progress';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+
+import Accordion from '@mui/material/Accordion';
+import AccordionDetails from '@mui/material/AccordionDetails';
+import AccordionSummary from '@mui/material/AccordionSummary';
+import Typography from '@mui/material/Typography';
 
 import { ProformaContext } from 'lib/ui/context';
 
@@ -20,13 +26,15 @@ function HomePage({ user }) {
       title: ''
     });
     const [company, setCompany] = useState({
-      companyName: 'asd',
-      taxNumber: 'asd',
-      city: 'asd',
-      address: 'asd',
-      zip: 'asd',
+      companyName: '',
+      taxNumber: '',
+      city: '',
+      address: '',
+      zip: '',
+      state: '',
       countryCode: 'HU',
       country: 'Hungary',
+      dueDays: 8
     });
     const [tickets, setTickets] = useState([]);
     const [lineItems, setLineItems] = useState([]);
@@ -75,6 +83,12 @@ function HomePage({ user }) {
       setLoading(false)
     };
 
+    const [expanded, setExpanded] = useState('tito');
+
+    const handleChange =
+      (panel: string) => (event: React.SyntheticEvent, isExpanded: boolean) => {
+        setExpanded(isExpanded ? panel : false);
+      };
 
     return (
         <>
@@ -86,8 +100,36 @@ function HomePage({ user }) {
           <Grid container spacing={2}>
             <Grid item xs={12} md={4}>
                 <User user={user} />
-                <Tito />
-                <Company data={company} />
+                <Accordion expanded={expanded === 'tito'} onChange={ handleChange('tito') }>
+                  <AccordionSummary
+                    expandIcon={<ExpandMoreIcon />}
+                    aria-controls="tito-content"
+                    id="tito-header"
+                  >
+                    <Typography sx={{ width: '33%', flexShrink: 0 }}>
+                      Tito
+                    </Typography>
+                    <Typography sx={{ color: 'text.secondary' }}>Account and Event settings from Tito</Typography>
+                  </AccordionSummary>
+                  <AccordionDetails>
+                    <Tito />
+                  </AccordionDetails>
+                </Accordion>
+                <Accordion expanded={expanded === 'company'} onChange={ handleChange('company') }>
+                  <AccordionSummary
+                    expandIcon={<ExpandMoreIcon />}
+                    aria-controls="company-content"
+                    id="company-header"
+                  >
+                    <Typography sx={{ width: '33%', flexShrink: 0 }}>
+                      Buyer
+                    </Typography>
+                    <Typography sx={{ color: 'text.secondary' }}>Invoice details for the Buyer</Typography>
+                  </AccordionSummary>
+                  <AccordionDetails>
+                    <Company data={company} />
+                  </AccordionDetails>
+                </Accordion>
             </Grid>
             <Grid item xs={12} md={8}>
               <Tickets />

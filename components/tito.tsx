@@ -3,6 +3,9 @@ import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
 import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
+import Card from '@mui/material/Card';
+import CardContent from '@mui/material/CardContent';
+import Typography from '@mui/material/Typography';
 
 import { ProformaContext } from 'lib/ui/context';
 
@@ -92,23 +95,23 @@ export default function Tito () {
   }, [event]);
 
   return (
-    <>
-      <AccountSelector
-        accounts={accounts}
-        value={account}
-        disabled={ accounts.length == 0 }
-        onChange={ event => setAccount(event.target.value) }
-      />
-      <EventSelector
-        events={events}
-        value={event}
-        disabled={ events.length == 0 }
-        onChange={ (e) => {
-          setEvent(e.target.value);
-          context.setEvent(e.target.value);
-          context.setLineItems([]);
-        } }
-      />
-    </>
+<>
+        <AccountSelector
+          accounts={accounts}
+          value={account}
+          disabled={ accounts.length == 0 }
+          onChange={ event => setAccount(event.target.value) }
+        />
+        <EventSelector
+          events={events}
+          value={event}
+          disabled={ events.length == 0 }
+          onChange={ (e) => {
+            setEvent(e.target.value);
+            context.setEvent(e.target.value);
+            context.setLineItems([]);
+          } }
+        />
+</>
   );
 }

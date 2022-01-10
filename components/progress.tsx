@@ -28,13 +28,11 @@ export default function Progress({
         { !loading && ("Proforma invoice completed")}
         </DialogTitle>
         <DialogContent>
-          <DialogContentText id="alert-dialog-description">
-            <Typography sx={{ fontSize: 16 }} color="text.primary">
-              The proforma invoice with the id <strong>{invoiceId}</strong> was created successfully.
-            </Typography>
-            <Typography sx={{ marginTop: 1,  fontSize: 16 }} color="text.secondary">
-              Click the link below to download the invoice pdf.
-            </Typography>
+          <DialogContentText id="alert-dialog-description"  sx={{ fontSize: 16 }} color="text.primary">
+            The proforma invoice with the id <strong>{invoiceId}</strong> was created successfully.
+          </DialogContentText>
+          <DialogContentText sx={{ marginTop: 1,  fontSize: 16 }} color="text.secondary">
+            Click the link below to download the invoice pdf.
           </DialogContentText>
         </DialogContent>
         <DialogActions>
