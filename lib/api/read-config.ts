@@ -3,8 +3,9 @@ import fs from 'fs';
 import yaml from 'yaml';
 
 export default async function readConfig () {
+  const configPath = process.env.NODE_ENV == 'test' ? './test-config.yaml' : './events-config.yaml';
   const readFile = promisify(fs.readFile);
-  const file = await readFile('./events-config.yaml', 'utf8');
+  const file = await readFile(configPath, 'utf8');
 
   const config = yaml.parse(file);
 

@@ -1,11 +1,11 @@
 import crypto from 'crypto';
 import Boom from '@hapi/boom';
 
-export default function validatePayload (request) {
+export default function validatePayload (request, eventConfig) {
   const signature = request.headers['tito-signature'];
 
   const hmac = crypto
-    .createHmac('sha256', request.eventConfig['tito-token'])
+    .createHmac('sha256', eventConfig['tito-token'])
     .update(request.rawBody)
     .digest('base64');
 

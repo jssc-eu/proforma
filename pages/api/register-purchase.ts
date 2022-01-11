@@ -3,8 +3,8 @@ import validateRequest from 'lib/api/validate/request';
 import validatePayload from 'lib/api/validate/payload';
 import readConfig from 'lib/api/read-config';
 import { order as getOrder } from 'lib/tito';
-import attachReleaseMetaData from 'lib/tito/attach-release-metadata';
-import createInvoice from 'lib/invoice/create';
+import attachTitoReleaseMetaData from 'lib/tito/attach-release-metadata';
+import invoice from 'lib/invoice/create';
 import createClient from 'lib/szamlazzhu/create-client';
 import sendInvoice from 'lib/szamlazzhu/send-invoice';
 
@@ -16,7 +16,14 @@ export const config = {
   },
 };
 
-export default async function callback(req, res) {
+export default async function callback(
+  req,
+  res,
+  getTitoOrder = getOrder,
+  addMetadata = attachTitoReleaseMetaData,
+  createInvoice = invoice,
+  send = sendInvoice,
+) {
   try {
     validateRequest(req);
 
@@ -24,8 +31,6 @@ export default async function callback(req, res) {
       res.status(200).end('ok');
       return;
     }
-
-    validatePayload(req);
 
     const {
       receipt: {
@@ -55,22 +60,25 @@ export default async function callback(req, res) {
       return;
     }
 
-    const rawOrder = await getOrder(accountId, eventId, orderId);
-    const order = attachReleaseMetaData(registrationData, rawOrder);
+    validatePayload(req, eventConfig);
+
+    const rawOrder = await getTitoOrder(accountId, eventId, orderId);
+    const order = addMetadata(registrationData, rawOrder);
     const invoice = await createInvoice(order, eventConfig);
 
-    if (process.env.NODE_ENV !== 'production') {
+    if (process.env.NODE_ENV !== 'production' && process.env.NODE_ENV !== 'test') {
       res.status(200).end(JSON.stringify(invoice));
       return;
     }
 
-    const result = await sendInvoice(
+    const result = await send(
       invoice,
       createClient(eventConfig, process.env.SZAMLAZZ_TOKEN)
     );
     res.status(200).end(result);
   } catch (e) {
-    const err = e.output.payload;
+    console.log(e)
+    const err = e?.output?.payload || { statusCode: 404, error: 'Not found'};
     res.status(err.statusCode).end(err.error);
   }
 }

@@ -12,9 +12,9 @@ describe('tito payload validation', () => {
         headers: { 'tito-signature': 'foo' },
         body: payloadEvent,
         rawBody: JSON.stringify(payloadEvent),
-        eventConfig: {
-          'tito-token': process.env.TITO_TOKEN_RF,
-        },
+      },
+      {
+        'tito-token': process.env.TITO_TOKEN_RF,
       });
     }).toThrow('Not Acceptable');
   });
@@ -31,9 +31,9 @@ describe('tito payload validation', () => {
         headers: { 'tito-signature': hmac },
         body: payloadEvent,
         rawBody: JSON.stringify(payloadEvent),
-        eventConfig: {
-          'tito-token': process.env.TITO_TOKEN_RF,
-        },
+      },
+      {
+        'tito-token': process.env.TITO_TOKEN_RF,
       });
     }).not.toThrow('Not Acceptable');
   });
