@@ -27,7 +27,13 @@ export default async function callback(
   try {
 
     if (process.env.DEBUG) {
-      console.log(req)
+      console.log({
+        url: req.url,
+        method: req.method,
+        query: req.query,
+        body: req.body,
+        headers: req.headers,
+      })
     }
 
     validateRequest(req);
