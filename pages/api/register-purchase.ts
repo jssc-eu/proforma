@@ -25,6 +25,11 @@ export default async function callback(
   send = sendInvoice,
 ) {
   try {
+
+    if (process.env.DEBUG) {
+      console.log(req)
+    }
+
     validateRequest(req);
 
     if (req.method === 'HEAD') {
@@ -78,6 +83,7 @@ export default async function callback(
     res.status(200).end(result);
   } catch (e) {
     console.log(e)
+
     const err = e?.output?.payload || { statusCode: 404, error: 'Not found'};
     res.status(err.statusCode).end(err.error);
   }
