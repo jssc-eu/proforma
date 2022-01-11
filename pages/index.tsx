@@ -85,9 +85,8 @@ function HomePage({ user }) {
 
     const [expanded, setExpanded] = useState('tito');
 
-    const handleChange =
-      (panel: string) => (event: React.SyntheticEvent, isExpanded: boolean) => {
-        setExpanded(isExpanded ? panel : false);
+    const handleChange = (panel: string) => (event: React.SyntheticEvent, isExpanded: boolean) => {
+        setExpanded(isExpanded ? panel : '');
       };
 
     return (
