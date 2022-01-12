@@ -1,4 +1,3 @@
-import MockDate from 'mockdate'
 import crypto from 'crypto'
 import readConfig from 'lib/api/read-config';
 import handler from 'pages/api/register-purchase'
@@ -21,7 +20,7 @@ const req = {
   body: {
     event: {
       account_slug: 'accountId',
-      slug: 'integration-test-event-2020',
+      slug: 'integration-test-event-2022',
     },
     slug: 'orderId',
     receipt: {
@@ -30,24 +29,24 @@ const req = {
   }
 }
 
+jest.mock('body-parser', () => {
+  return { raw: () => (req, res, fn) => {
+    req.body = Buffer.from(JSON.stringify(req.body))
+    fn()
+  }}
+});
+
 const mocks = [
-  jest.fn().mockResolvedValue('order'),
+  jest.fn().mockResolvedValue({ json: () => (["order"])}),
   jest.fn(),
-  jest.fn().mockResolvedValue('invoice'),
-  jest.fn().mockResolvedValue('sent'),
+  jest.fn().mockResolvedValue('["invoice"]'),
+  jest.fn().mockResolvedValue('sent')
 ]
 
 beforeEach(async () => {
-  MockDate.set('2020-11-22')
   resEnd.mockClear()
   resStatus.mockClear()
-
   mocks.forEach(mock => mock.mockClear())
-});
-
-afterEach(() => {
-  MockDate.reset();
-
 });
 
 describe('register-purchase', () => {
@@ -60,20 +59,17 @@ describe('register-purchase', () => {
       },
       query: {
         token: TITO_WEBHOOK_TOKEN
-      },
-      rawBody: ''
+      }
     })
 
-
-
-    request.rawBody = JSON.stringify(request.body)
+    const rawBody = JSON.stringify(request.body)
 
     const eventsConfig = await readConfig();
-    const eventConfig = eventsConfig.events['integration-test-event-2020'];
+    const eventConfig = eventsConfig.events['integration-test-event-2022'];
 
     const hmac = crypto
       .createHmac('sha256', eventConfig['tito-token'])
-      .update(request.rawBody)
+      .update(rawBody)
       .digest('base64');
 
     request.headers['tito-signature'] = hmac

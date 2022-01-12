@@ -34,7 +34,7 @@ export default async function callback(
   getTitoOrder = getOrder,
   addMetadata = attachTitoReleaseMetaData,
   createInvoice = invoice,
-  send = sendInvoice,
+  send = sendInvoice
 ) {
   try {
     // set up rawBody as Buffer, for payload validation
@@ -90,7 +90,8 @@ export default async function callback(
     validatePayload(req, eventConfig);
 
     const rawOrder = await getTitoOrder(accountId, eventId, orderId);
-    const order = addMetadata(registrationData, rawOrder);
+    const orderData = await rawOrder.json()
+    const order = addMetadata(registrationData, orderData);
     const invoice = await createInvoice(order, eventConfig);
 
     if (process.env.NODE_ENV !== 'production' && process.env.NODE_ENV !== 'test') {

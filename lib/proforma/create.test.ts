@@ -58,7 +58,7 @@ const order = {
 describe('create proforma', () => {
   test('szamlazz proforma invoked with proper params', async () => {
       const file = await readFile('./test-config.yaml', 'utf8');
-      const config = (yaml.parse(file)).events['integration-test-event-2020'];
+      const config = (yaml.parse(file)).events['integration-test-event-2022'];
 
       await create(
         order,

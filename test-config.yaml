@@ -1,8 +1,8 @@
 ---
 events:
 
-  integration-test-event-2020:
-    label: "JSConf Budapest 2020"
+  integration-test-event-2022:
+    label: "JSConf Budapest 2022"
     dates:
       - ticket-name-contains: "*"
         date: "September 24-25, 2020"
