@@ -9,9 +9,12 @@ export async function sendTitoRequest (url: string) {
   });
 
   if (res.status !== 200) {
-    throw new Boom.Boom('An error occured with Tito', {
-      statusCode: res.status,
-    });
+    console.error(`
+    An error occured with Tito:
+    ${url}
+    ${await res.text()}
+    `);
+    throw Boom.notFound();
   }
 
   return res;

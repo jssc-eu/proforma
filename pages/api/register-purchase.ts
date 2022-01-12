@@ -1,4 +1,4 @@
-
+import bodyParser from 'body-parser';
 import validateRequest from 'lib/api/validate/request';
 import validatePayload from 'lib/api/validate/payload';
 import readConfig from 'lib/api/read-config';
@@ -8,13 +8,25 @@ import invoice from 'lib/invoice/create';
 import createClient from 'lib/szamlazzhu/create-client';
 import sendInvoice from 'lib/szamlazzhu/send-invoice';
 
+
+export function runMiddleware(req, res, fn: Function) {
+  return new Promise((resolve, reject) => {
+    fn(req, res, (result: Object) => {
+      if (result instanceof Error) {
+        return reject(result)
+      }
+
+      return resolve(result)
+    })
+  })
+}
+
 export const config = {
   api: {
-    bodyParser: {
-      sizeLimit: '3mb',
-    },
+    bodyParser: false,
   },
 };
+
 
 export default async function callback(
   req,
@@ -25,6 +37,10 @@ export default async function callback(
   send = sendInvoice,
 ) {
   try {
+    // set up rawBody as Buffer, for payload validation
+    await runMiddleware(req, res, bodyParser.raw({ type: 'application/json' }))
+    req.rawBody = req.body;
+    req.body = JSON.parse(req.body.toString());
 
     if (process.env.DEBUG) {
       console.log({
