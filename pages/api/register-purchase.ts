@@ -47,7 +47,7 @@ export default async function callback(
         url: req.url,
         method: req.method,
         query: req.query,
-        body: req.body,
+        body: req.rawBody.toString(),
         headers: req.headers,
       })
     }
